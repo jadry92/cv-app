@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h3>{{ user.username }}</h3>
+  <ul>
+    <li>{{ user.email }}</li>
+    <li>{{ user.first_name }}</li>
+    <li>{{ user.last_name }}</li>
+    <li><a href="{% url 'users:update' user.username %}">Update</a></li>
+  </ul>
+{% endblock %}
