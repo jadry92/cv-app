@@ -64,7 +64,7 @@ THIRD_PARTY_APPS = [
     "django_htmx",
 ]
 
-LOCAL_APPS = ["users"]
+LOCAL_APPS = ["users", "cv"]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = LOCAL_APPS + DJANGO_APPS + THIRD_PARTY_APPS

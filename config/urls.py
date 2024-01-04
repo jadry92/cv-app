@@ -10,5 +10,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("users/", include("users.urls", namespace="users")),
     path("",TemplateView.as_view(template_name="home.html"),name="home"),
-    path("account/", include("allauth.urls"))
+    path("account/", include("allauth.urls")),
+    path("", include("cv.urls")),
 ]
