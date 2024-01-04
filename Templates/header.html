@@ -1,38 +1,29 @@
 <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
   <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-    <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
-    <span class="fs-4">Logo</span>
+    <svg class="bi me-2" width="40" height="32">
+      <use xlink:href="#bootstrap" />
+    </svg>
+    <span class="fs-4">CV App</span>
   </a>
 
   <ul class="nav nav-pills">
-    <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
-    <li class="nav-item"><a href="#" class="nav-link">Features</a></li>
-    <li class="nav-item"><a href="#" class="nav-link">Pricing</a></li>
-    <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
-    <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+    <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+    <li class="nav-item"><a href="/cvs" class="nav-link">CVs</a></li>
+    <li class="nav-item"><a href="/me" class="nav-link">Profile</a></li>
+    {% if request.user.is_authenticated %}
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'users:detail' user.username %}">Welcome {{ user.username }}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
+    </li>
+    {% else %}
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'account_signup' %}">Sign In</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'account_login' %}">Login</a>
+    </li>
+    {% endif %}
   </ul>
 </header>
-
-<div class="md-1">
-  <nav class="navbar navbar-expand-sm navbar-ligth">
-    <ul class="navbar-nav me-auto mt-2 mt-lg-0">
-      {% if request.user.is_authenticated %}
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'users:detail' user.username %}"
-          >Welcome {{ user.username }}</a
-        >
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
-      </li>
-      {% else %}
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'account_signup' %}">Sign In</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'account_login' %}">Login</a>
-      </li>
-      {% endif %}
-    </ul>
-  </nav>
-</div>
