@@ -11,7 +11,6 @@ from django.urls import reverse
 User = get_user_model()
 
 
-
 class UserDetailView(LoginRequiredMixin, DetailView):
     """User detail view."""
 
@@ -35,3 +34,15 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
         """Return to user's profile."""
         username = self.object.username
         return reverse("users:detail", kwargs={"username": username})
+
+
+class UserExpericesView(LoginRequiredMixin, DetailView):
+    """User experices view."""
+
+    template_name = "users/experices.html"
+    slug_field = "username"
+    slug_url_kwarg = "username"
+    context_object_name = "user"
+    model = User
+
+
