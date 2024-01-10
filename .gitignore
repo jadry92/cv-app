@@ -281,3 +281,6 @@ dump.rdb
 
 
 db.sqlite3
+
+data/
+.vscode/
