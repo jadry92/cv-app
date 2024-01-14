@@ -12,4 +12,5 @@ urlpatterns = [
     path("", TemplateView.as_view(template_name="home.html"), name="home"),
     path("account/", include("allauth.urls")),
     path("", include("cv.urls")),
+    path("cover-letter/", include("cover_letter.urls")),
 ]
