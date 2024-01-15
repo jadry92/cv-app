@@ -14,7 +14,7 @@ class EducationListView(LoginRequiredMixin, ListView):
 
     template_name = "users/education/list.html"
     model = Education
-    ordering = ("-created",)
+    ordering = ("-created_at",)
     paginate_by = 10
     context_object_name = "educations"
 

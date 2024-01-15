@@ -26,8 +26,8 @@
             <th scope="col">Actions</th>
           </tr>
         </thead>
-        {% for about in abouts %}
         <tbody>
+          {% for about in abouts %}
           <tr>
             <th scope="row"><a href="{% url 'users:about_detail' about.pk %}">{{ about.title }}</a></th>
             <td>{{ about.updated_at }}</td>
@@ -38,9 +38,9 @@
               <a href="{% url 'users:about_delete' about.pk %}">delete</a>
             </td>
           </tr>
+          {% endfor %}
         </tbody>
       </table>
-      {% endfor %}
     </div>
   </div>
 

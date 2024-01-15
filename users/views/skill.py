@@ -14,7 +14,7 @@ class SkillListView(LoginRequiredMixin, ListView):
 
     template_name = "users/skill/list.html"
     model = Skill
-    ordering = ("-created",)
+    ordering = ("-created_at",)
     paginate_by = 10
     context_object_name = "skills"
 

@@ -4,16 +4,16 @@
 {% load account socialaccount %}
 {% load crispy_forms_tags %}
 
-{% block head_title %}{% translate "Abouts" %}{% endblock %}
+{% block head_title %}Projects{% endblock %}
 
 {% block content %}
 <div class="container">
   <div class="row">
     <h2 class="text-center">
-      Abouts
+      Projects
     </h2>
   </div>
-  {% if abouts %}
+  {% if projects %}
 
   <div class="row">
     <div class="col">
@@ -21,39 +21,41 @@
         <thead>
           <tr>
             <th scope="col">Title</th>
+            <th scope="col">URL</th>
             <th scope="col">Updated</th>
             <th scope="col">Created</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
-        {% for about in abouts %}
         <tbody>
+          {% for project in projects %}
           <tr>
-            <th scope="row"><a href="{% url 'users:about_detail' about.pk %}">{{ about.title }}</a></th>
-            <td>{{ about.updated_at }}</td>
-            <td>{{ about.created_at }}</td>
+            <th scope="row"><a href="{% url 'users:project_detail' project.pk %}">{{ project.title }}</a></th>
+            <td>{{ project.url }}</td>
+            <td>{{ project.updated_at }}</td>
+            <td>{{ project.created_at }}</td>
             <td>
-              <a href="{% url 'users:about_edit' about.pk %}">edit</a>
+              <a href="{% url 'users:project_edit' project.pk %}">edit</a>
               /
-              <a href="{% url 'users:about_delete' about.pk %}">delete</a>
+              <a href="{% url 'users:project_delete' project.pk %}">delete</a>
             </td>
           </tr>
+          {% endfor %}
         </tbody>
       </table>
-      {% endfor %}
     </div>
   </div>
 
   {% else %}
   <div class="row">
     <div class="col">
-      No Abouts
+      No Projects
     </div>
   </div>
   {% endif %}
   <div class="row">
     <div class="col">
-      <a href="{% url 'users:about_create' %}" class="btn btn-primary">{% translate "Create" %}</a>
+      <a href="{% url 'users:project_create' %}" class="btn btn-primary">{% translate "Create" %}</a>
     </div>
   </div>
   {% endblock %}

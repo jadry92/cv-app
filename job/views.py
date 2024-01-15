@@ -15,7 +15,7 @@ class JobListView(LoginRequiredMixin, ListView):
     model = Job
     template_name = "job/list.html"
     context_object_name = "jobs"
-    ordering = ["-created_at"]
+    ordering = ("-created_at",)
 
 
 class JobDetailView(LoginRequiredMixin, DetailView):

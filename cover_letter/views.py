@@ -15,7 +15,7 @@ class CoverLetterListView(LoginRequiredMixin, ListView):
     model = CoverLetter
     template_name = "cover_letter/list.html"
     context_object_name = "cover_letters"
-    ordering = ["-created_at"]
+    ordering = ("-created_at",)
 
 
 class CoverLetterCreateView(LoginRequiredMixin, CreateView):
