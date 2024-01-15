@@ -2,33 +2,33 @@
 <div class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary">
   <ul class="nav nav-pills flex-column mb-auto">
     <li class="nav-item">
-      <a href="{% url "users:about_list" %}" class="nav-link active" aria-current="page">
+      <a href="{% url "users:about_list" %}" {% if '/about/' in request.path %}class="nav-link active"{% else %}class="nav-link"{% endif %}>
         About Me
       </a>
     </li>
     <li>
-      <a href="{% url "users:experience_list" %}" class="nav-link link-body-emphasis">
+      <a href="{% url "users:experience_list" %}" {% if '/experience/' in request.path %}class="nav-link active"{% else %}class="nav-link"{% endif %}>
         Experience
       </a>
     </li>
     <li>
-      <a href="{% url "users:education_list" %}" class="nav-link link-body-emphasis">
+      <a href="{% url "users:education_list" %}" {% if '/education/' in request.path %}class="nav-link active"{% else %}class="nav-link"{% endif %}>
         Education
       </a>
     </li>
     <li>
-      <a href="{% url "users:skill_list" %}" class="nav-link link-body-emphasis">
+      <a href="{% url "users:skill_list" %}" {% if '/skill/' in request.path %}class="nav-link active"{% else %}class="nav-link"{% endif %}>
         Skills
       </a>
     </li>
     <li>
-      <a href="{% url "users:project_list" %}" class="nav-link link-body-emphasis">
+      <a href="{% url "users:project_list" %}" {% if '/project/' in request.path %}class="nav-link active"{% else %}class="nav-link"{% endif %}>
         Projects
       </a>
     </li>
     <li>
-      <a href="{% url "users:social_list" %}" class="nav-link link-body-emphasis">
-        Socials
+      <a href="{% url "users:social_network_list" %}" {% if '/social/' in request.path %}class="nav-link active"{% else %}class="nav-link"{% endif %}>
+       Socials
       </a>
     </li>
   </ul>

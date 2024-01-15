@@ -12,7 +12,7 @@ from users.models import SocialNetwork
 class SocialNetworkListView(LoginRequiredMixin, ListView):
     """List all social networks"""
 
-    template_name = "social_network/list.html"
+    template_name = "users/social_network/list.html"
     model = SocialNetwork
     context_object_name = "social_networks"
 
@@ -20,16 +20,20 @@ class SocialNetworkListView(LoginRequiredMixin, ListView):
 class SocialNetworkCreateView(LoginRequiredMixin, CreateView):
     """Create a social network"""
 
-    template_name = "social_network/cretate.html"
+    template_name = "users/social_network/create.html"
     model = SocialNetwork
     fields = ["name", "url"]
-    success_url = reverse_lazy("social:list")
+    success_url = reverse_lazy("users:social_network_list")
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
 class SocialNetworkDetailView(LoginRequiredMixin, DetailView):
     """Detail a social network"""
 
-    template_name = "social_network/detail.html"
+    template_name = "users/social_network/detail.html"
     model = SocialNetwork
     context_object_name = "social_network"
 
@@ -37,15 +41,19 @@ class SocialNetworkDetailView(LoginRequiredMixin, DetailView):
 class SocialNetworkUpdateView(LoginRequiredMixin, UpdateView):
     """Update a social network"""
 
-    template_name = "social_network/update.html"
+    template_name = "users/social_network/update.html"
     model = SocialNetwork
     fields = ["name", "url"]
-    success_url = reverse_lazy("social:list")
+    success_url = reverse_lazy("users:social_network_list")
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
 class SocialNetworkDeleteView(LoginRequiredMixin, DeleteView):
     """Delete a social network"""
 
-    template_name = "social_network/delete.html"
+    template_name = "users/social_network/delete.html"
     model = SocialNetwork
-    success_url = reverse_lazy("social:list")
+    success_url = reverse_lazy("users:social_network_list")

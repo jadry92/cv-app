@@ -4,16 +4,16 @@
 {% load account socialaccount %}
 {% load crispy_forms_tags %}
 
-{% block head_title %}{% translate "Abouts" %}{% endblock %}
+{% block head_title %}{% translate "skills" %}{% endblock %}
 
 {% block content %}
 <div class="container">
   <div class="row">
     <h2 class="text-center">
-      Abouts
+      skills
     </h2>
   </div>
-  {% if abouts %}
+  {% if skills %}
 
   <div class="row">
     <div class="col">
@@ -26,34 +26,34 @@
             <th scope="col">Actions</th>
           </tr>
         </thead>
-        {% for about in abouts %}
         <tbody>
+          {% for skill in skills %}
           <tr>
-            <th scope="row"><a href="{% url 'users:about_detail' about.pk %}">{{ about.title }}</a></th>
-            <td>{{ about.updated_at }}</td>
-            <td>{{ about.created_at }}</td>
+            <th scope="row"><a href="{% url 'users:skill_detail' skill.pk %}">{{ skill.title }}</a></th>
+            <td>{{ skill.updated_at }}</td>
+            <td>{{ skill.created_at }}</td>
             <td>
-              <a href="{% url 'users:about_edit' about.pk %}">edit</a>
+              <a href="{% url 'users:skill_edit' skill.pk %}">edit</a>
               /
-              <a href="{% url 'users:about_delete' about.pk %}">delete</a>
+              <a href="{% url 'users:skill_delete' skill.pk %}">delete</a>
             </td>
           </tr>
+          {% endfor %}
         </tbody>
       </table>
-      {% endfor %}
     </div>
   </div>
 
   {% else %}
   <div class="row">
     <div class="col">
-      No Abouts
+      No skills
     </div>
   </div>
   {% endif %}
   <div class="row">
-    <div class="col">
-      <a href="{% url 'users:about_create' %}" class="btn btn-primary">{% translate "Create" %}</a>
+    <div class="col mt-5">
+      <a href="{% url 'users:skill_create' %}" class="btn btn-primary">{% translate "Create" %}</a>
     </div>
   </div>
   {% endblock %}

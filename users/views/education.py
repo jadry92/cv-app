@@ -24,7 +24,7 @@ class EducationCreateView(LoginRequiredMixin, CreateView):
 
     template_name = "users/education/create.html"
     model = Education
-    fields = "__all__"
+    fields = ["deegre", "description", "start_date", "end_date", "school"]
     success_url = reverse_lazy("users:educations_list")
 
 
@@ -41,7 +41,7 @@ class EducationUpdateView(LoginRequiredMixin, UpdateView):
 
     template_name = "users/education/update.html"
     model = Education
-    fields = "__all__"
+    fields = ["deegre", "description", "start_date", "end_date", "school"]
     success_url = reverse_lazy("users:educations_list")
 
 
@@ -51,3 +51,8 @@ class EducationDeleteView(LoginRequiredMixin, DeleteView):
     template_name = "users/education/delete.html"
     model = Education
     success_url = reverse_lazy("users:educations_list")
+
+    def get_queryset(self):
+        """Return the education's owner"""
+        queryset = super().get_queryset()
+        return queryset.filter(user=self.request.user)

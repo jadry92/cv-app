@@ -4,16 +4,16 @@
 {% load account socialaccount %}
 {% load crispy_forms_tags %}
 
-{% block head_title %}{% translate "Abouts" %}{% endblock %}
+{% block head_title %}{% translate "social_networks" %}{% endblock %}
 
 {% block content %}
 <div class="container">
   <div class="row">
     <h2 class="text-center">
-      Abouts
+      social_networks
     </h2>
   </div>
-  {% if abouts %}
+  {% if social_networks %}
 
   <div class="row">
     <div class="col">
@@ -27,15 +27,15 @@
           </tr>
         </thead>
         <tbody>
-          {% for about in abouts %}
+          {% for social_network in social_networks %}
           <tr>
-            <th scope="row"><a href="{% url 'users:about_detail' about.pk %}">{{ about.title }}</a></th>
-            <td>{{ about.updated_at }}</td>
-            <td>{{ about.created_at }}</td>
+            <th scope="row"><a href="{% url 'users:social_network_detail' social_network.pk %}">{{ social_network.title }}</a></th>
+            <td>{{ social_network.updated_at }}</td>
+            <td>{{ social_network.created_at }}</td>
             <td>
-              <a href="{% url 'users:about_edit' about.pk %}">edit</a>
+              <a href="{% url 'users:social_network_edit' social_network.pk %}">edit</a>
               /
-              <a href="{% url 'users:about_delete' about.pk %}">delete</a>
+              <a href="{% url 'users:social_network_delete' social_network.pk %}">delete</a>
             </td>
           </tr>
           {% endfor %}
@@ -47,13 +47,13 @@
   {% else %}
   <div class="row">
     <div class="col">
-      No Abouts
+      No social_networks
     </div>
   </div>
   {% endif %}
   <div class="row">
     <div class="col">
-      <a href="{% url 'users:about_create' %}" class="btn btn-primary">{% translate "Create" %}</a>
+      <a href="{% url 'users:social_network_create' %}" class="btn btn-primary">{% translate "Create" %}</a>
     </div>
   </div>
   {% endblock %}
