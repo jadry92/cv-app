@@ -24,6 +24,7 @@ django-coverage-plugin==3.1.0
 django-crispy-forms==2.1
 django-environ==0.11.2
 django-extensions==3.2.3
+django-htmx==1.17.2
 django-stubs==4.2.4
 django-stubs-ext==4.2.2
 executing==1.2.0

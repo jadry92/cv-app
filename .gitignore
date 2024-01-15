@@ -276,6 +276,7 @@ dump.rdb
 .pytest_cache/
 .ipython/
 .envs
+.env
 .envs/*
 !.envs/.local/
 
@@ -284,3 +285,4 @@ db.sqlite3
 
 data/
 .vscode/
+fixtures/
