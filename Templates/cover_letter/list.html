@@ -4,16 +4,16 @@
 {% load account socialaccount %}
 {% load crispy_forms_tags %}
 
-{% block head_title %}{% translate "Abouts" %}{% endblock %}
+{% block head_title %}{% translate "cover_letters" %}{% endblock %}
 
 {% block content %}
 <div class="container">
   <div class="row">
     <h2 class="text-center">
-      Abouts
+      cover_letters
     </h2>
   </div>
-  {% if abouts %}
+  {% if cover_letters %}
 
   <div class="row">
     <div class="col">
@@ -26,34 +26,34 @@
             <th scope="col">Actions</th>
           </tr>
         </thead>
-        {% for about in abouts %}
         <tbody>
+          {% for cover_letter in cover_letters %}
           <tr>
-            <th scope="row"><a href="{% url 'users:about_detail' about.pk %}">{{ about.title }}</a></th>
-            <td>{{ about.updated_at }}</td>
-            <td>{{ about.created_at }}</td>
+            <th scope="row"><a href="{% url 'cover_letter:cover_letter_detail' cover_letter.pk %}">{{ about.title }}</a></th>
+            <td>{{ cover_letter.updated_at }}</td>
+            <td>{{ cover_letter.created_at }}</td>
             <td>
-              <a href="{% url 'users:about_edit' about.pk %}">edit</a>
+              <a href="{% url 'cover_letter:cover_letter_edit' cover_letter.pk %}">edit</a>
               /
-              <a href="{% url 'users:about_delete' about.pk %}">delete</a>
+              <a href="{% url 'cover_letter:cover_letter_delete' cover_letter.pk %}">delete</a>
             </td>
           </tr>
+          {% endfor %}
         </tbody>
       </table>
-      {% endfor %}
     </div>
   </div>
 
   {% else %}
   <div class="row">
     <div class="col">
-      No Abouts
+      No cover_letters
     </div>
   </div>
   {% endif %}
   <div class="row">
     <div class="col">
-      <a href="{% url 'users:about_create' %}" class="btn btn-primary">{% translate "Create" %}</a>
-    </div>
+      <a href="{% url 'cover_letter:cover_letter_create' %}" class="btn btn-primary">{% translate "Create" %}</a>
+   </div>
   </div>
   {% endblock %}

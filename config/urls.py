@@ -13,4 +13,5 @@ urlpatterns = [
     path("account/", include("allauth.urls")),
     path("", include("cv.urls")),
     path("cover-letter/", include("cover_letter.urls")),
+    path("job/", include("job.urls")),
 ]

@@ -22,9 +22,9 @@ class CoverLetterCreateView(LoginRequiredMixin, CreateView):
     """This class defines the create view for the cover letter model."""
 
     model = CoverLetter
-    fields = ["name", "text", "url_job"]
+    fields = "__all__"
     template_name = "cover_letter/create.html"
-    success_url = reverse_lazy("cover_letter:list")
+    success_url = reverse_lazy("cover_letter:cover_letter_list")
 
     def form_valid(self, form):
         """Save the form data."""
@@ -44,9 +44,9 @@ class CoverLetterUpdateView(LoginRequiredMixin, UpdateView):
     """This class defines the update view for the cover letter model."""
 
     model = CoverLetter
-    fields = ["name", "text", "url_job"]
-    template_name = "cover_letter/update.html"
-    success_url = reverse_lazy("cover_letter:list")
+    fields = "__all__"
+    template_name = "cover_letter/edit.html"
+    success_url = reverse_lazy("cover_letter:cover_letter_list")
 
 
 class CoverLetterDeleteView(LoginRequiredMixin, DeleteView):
@@ -54,4 +54,4 @@ class CoverLetterDeleteView(LoginRequiredMixin, DeleteView):
 
     model = CoverLetter
     template_name = "cover_letter/delete.html"
-    success_url = reverse_lazy("cover_letter:list")
+    success_url = reverse_lazy("cover_letter:cover_letter_list")

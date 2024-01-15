@@ -126,7 +126,8 @@ STATICFILES_FINDERS = [
 # MEDIA
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-root
-MEDIA_ROOT = str(APPS_DIR / "media")
+MEDIA_PATH = env("MEDIA_PATH", default=f"{APPS_DIR}/media")
+MEDIA_ROOT = MEDIA_PATH
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = "/media/"
 
@@ -171,7 +172,7 @@ DB_PATH = env.str("DB_PATH", default=f"{BASE_DIR}/db.sqlite3")
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": DB_PATH,
     }
 }
 

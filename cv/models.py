@@ -1,4 +1,4 @@
-""" This file contains the model for hte CV """
+""" This file contains the model for the CV """
 
 # Django imports
 from django.db import models
@@ -6,20 +6,36 @@ from django.db import models
 # Local imports
 from users.models import User, ProfilePicture, Skill, Experience, Education, Project, AboutMe
 
-class CV(models.Model):
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cv')
+class CV(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cv")
     name = models.CharField(max_length=255)
-    profile_picture = models.ForeignKey(ProfilePicture, on_delete=models.CASCADE, related_name='cv')
-    skills = models.ManyToManyField(Skill, related_name='cv')
-    experiences = models.ManyToManyField(Experience, related_name='cv')
-    educations = models.ManyToManyField(Education, related_name='cv')
-    projects = models.ManyToManyField(Project, related_name='cv')
-    about_me = models.ForeignKey(AboutMe, on_delete=models.CASCADE, related_name='cv')
+    profile_picture = models.ForeignKey(ProfilePicture, on_delete=models.CASCADE, related_name="cv")
+    skills = models.ManyToManyField(Skill, related_name="cv")
+    experiences = models.ManyToManyField(Experience, related_name="cv")
+    educations = models.ManyToManyField(Education, related_name="cv")
+    projects = models.ManyToManyField(Project, related_name="cv")
+    about_me = models.ForeignKey(AboutMe, on_delete=models.CASCADE, related_name="cv")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['user', 'name']
-        verbose_name = 'CV'
-        verbose_name_plural = 'CVs'
+        ordering = ["user", "name"]
+        verbose_name = "CV"
+        verbose_name_plural = "CVs"
+
+
+class CVTemplate(models.Model):
+    cv = models.ForeignKey(CV, on_delete=models.CASCADE, related_name="template")
+    name = models.CharField(max_length=255)
+    template_name = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["cv", "name"]
+        verbose_name = "CV Template"
+        verbose_name_plural = "CV Templates"
+
+    def __str__(self):
+        return self.template_name
