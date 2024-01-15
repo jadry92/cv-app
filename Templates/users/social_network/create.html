@@ -4,7 +4,7 @@
 {% block title %} New social_network {% endblock title %}
 
 
-{%block content %}
+{% block content %}
 <div class="container">
   <div class="row">
     <h2 class="text-center">
@@ -13,7 +13,7 @@
   </div>
   <div class="row">
     <div class="col-md-8 offset-md-2">
-      <form class="create" method="POST" action="{% url 'users:social_network_create'%}">
+      <form class="create" method="POST" action="{% url 'users:social_network_create' %}">
         {% csrf_token %}
         {{ form | crispy }}
         <button class="primaryAction btn btn-primary" type="submit">Create</button>

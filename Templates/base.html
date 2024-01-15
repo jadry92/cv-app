@@ -45,11 +45,13 @@
           {% include "header.html" %}
         </div>
       </div>
-      <div class="row h-100 ">
-        <div class="col-3 d-flex ">
+      <div class="row h-100">
+        <div class="col">
+          {% block sidebar %}
           {% include "sidebar.html" %}
+          {% endblock sidebar %}
         </div>
-        <div class="col-9 overflow-scroll">
+        <div class="col-10 overflow-scroll">
           {% block content %}
             <p>Use this document as a way to quick start any new project.</p>
           {% endblock content %}
