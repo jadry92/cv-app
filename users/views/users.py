@@ -4,9 +4,10 @@
 # Django
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import DetailView, UpdateView
+from django.views.generic import DetailView, UpdateView, CreateView
 
 from django.urls import reverse
+
 # Models
 User = get_user_model()
 
@@ -36,13 +37,31 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
         return reverse("users:detail", kwargs={"username": username})
 
 
-class UserExpericesView(LoginRequiredMixin, DetailView):
-    """User experices view."""
+class CreatePictureProfile(LoginRequiredMixin, CreateView):
+    """Create picture profile view."""
 
-    template_name = "users/experices.html"
+    template_name = "users/picture_profile.html"
+    model = User
+    fields = ["picture_profile"]
     slug_field = "username"
     slug_url_kwarg = "username"
-    context_object_name = "user"
+
+    def get_success_url(self):
+        """Return to user's profile."""
+        username = self.object.username
+        return reverse("users:detail", kwargs={"username": username})
+
+
+class UpdatePictureProfile(LoginRequiredMixin, UpdateView):
+    """Update picture profile view."""
+
+    template_name = "users/picture_profile.html"
     model = User
+    fields = ["picture_profile"]
+    slug_field = "username"
+    slug_url_kwarg = "username"
 
-
+    def get_success_url(self):
+        """Return to user's profile."""
+        username = self.object.username
+        return reverse("users:detail", kwargs={"username": username})

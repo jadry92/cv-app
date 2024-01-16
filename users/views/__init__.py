@@ -1,4 +1,4 @@
-from .user import *
+from .users import *
 from .social_network import *
 from .skill import *
 from .project import *

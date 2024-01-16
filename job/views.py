@@ -31,7 +31,7 @@ class JobCreateView(LoginRequiredMixin, CreateView):
 
     model = Job
     template_name = "job/create.html"
-    fields = ["name", "notes", "url", "applied", "status", "company"]
+    fields = "__all__"
     success_url = reverse_lazy("job:list")
 
     def form_valid(self, form):
@@ -46,7 +46,7 @@ class JobUpdateView(LoginRequiredMixin, UpdateView):
 
     model = Job
     template_name = "job/update.html"
-    fields = ["name", "notes", "url", "applied", "status", "company"]
+    fields = "__all__"
     success_url = reverse_lazy("job:list")
 
     def form_valid(self, form):
