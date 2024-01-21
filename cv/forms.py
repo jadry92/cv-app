@@ -11,7 +11,7 @@ class CVForm(forms.ModelForm):
     class Meta:
         model = CV
         fields = "__all__"
-        exclude = ["user", "created", "modified"]
+        exclude = ["user", "created_at", "modified_at"]
 
 
 class CVTemplateForm(forms.ModelForm):

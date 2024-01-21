@@ -10,7 +10,7 @@ from users.models import User, ProfilePicture, Skill, Experience, Education, Pro
 class CV(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cv")
     name = models.CharField(max_length=255)
-    profile_picture = models.ForeignKey(ProfilePicture, on_delete=models.CASCADE, related_name="cv")
+    profile_picture = models.ForeignKey(ProfilePicture, on_delete=models.SET_NULL, related_name="cv", null=True)
     skills = models.ManyToManyField(Skill, related_name="cv")
     experiences = models.ManyToManyField(Experience, related_name="cv")
     educations = models.ManyToManyField(Education, related_name="cv")

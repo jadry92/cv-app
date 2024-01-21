@@ -55,7 +55,7 @@ class SkillDetailView(LoginRequiredMixin, DetailView):
 class SkillUpdateView(LoginRequiredMixin, UpdateView):
     """Skill update view"""
 
-    template_name = "users/skill/update.html"
+    template_name = "users/skill/edit.html"
     model = Skill
     fields = ["name", "percentage"]
     success_url = reverse_lazy("users:skill_list")

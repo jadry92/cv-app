@@ -21,6 +21,7 @@
         <thead>
           <tr>
             <th scope="col">Title</th>
+            <th scope="col">%</th>
             <th scope="col">Updated</th>
             <th scope="col">Created</th>
             <th scope="col">Actions</th>
@@ -29,13 +30,14 @@
         <tbody>
           {% for skill in skills %}
           <tr>
-            <th scope="row"><a href="{% url 'users:skill_detail' skill.pk %}">{{ skill.title }}</a></th>
+            <th scope="row"><a href="{% url 'users:skill_detail' skill.id %}">{{ skill.name }}</a></th>
+            <td>{{ skill.percentage }}</td>
             <td>{{ skill.updated_at }}</td>
             <td>{{ skill.created_at }}</td>
             <td>
-              <a href="{% url 'users:skill_edit' skill.pk %}">edit</a>
+              <a href="{% url 'users:skill_edit' skill.id %}">edit</a>
               /
-              <a href="{% url 'users:skill_delete' skill.pk %}">delete</a>
+              <a href="{% url 'users:skill_delete' skill.id %}">delete</a>
             </td>
           </tr>
           {% endfor %}

@@ -288,3 +288,4 @@ data/
 fixtures/
 
 clean_migrations.sh
+media/

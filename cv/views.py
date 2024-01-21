@@ -32,8 +32,13 @@ class CVCreateView(CreateView):
 
     template_name = "cv/create.html"
     form_class = CVForm
-    success_url = "cv:cv_list"
+    success_url = reverse_lazy("cv:cv_list")
     pk_url_kwarg = "pk"
+
+    def form_valid(self, form):
+        """If the form is valid, save the associated model."""
+        form.instance.user = self.request.user
+        return super(CVCreateView, self).form_valid(form)
 
 
 class CVUpdateView(UpdateView):
@@ -42,7 +47,7 @@ class CVUpdateView(UpdateView):
     template_name = "cv/update.html"
     model = CV
     fields = "__all__"
-    success_url = "cv:cv_list"
+    success_url = reverse_lazy("cv:cv_list")
     pk_url_kwarg = "pk"
 
 
@@ -51,7 +56,7 @@ class CVDeleteView(DeleteView):
 
     template_name = "cv/delete.html"
     model = CV
-    success_url = "cv:cv_list"
+    success_url = reverse_lazy("cv:cv_list")
 
 
 class CVTemplateListView(ListView):
