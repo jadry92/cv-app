@@ -19,10 +19,9 @@ class CV(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        ordering = ["user", "name"]
-        verbose_name = "CV"
-        verbose_name_plural = "CVs"
+    def __str__(self):
+        """Return name and description."""
+        return f"{self.name}"
 
 
 class CVTemplate(models.Model):
@@ -31,11 +30,6 @@ class CVTemplate(models.Model):
     template_name = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        ordering = ["cv", "name"]
-        verbose_name = "CV Template"
-        verbose_name_plural = "CV Templates"
 
     def __str__(self):
         return self.template_name

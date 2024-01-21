@@ -3,6 +3,10 @@
 
 # Django
 from django.db import models
+from django.contrib.auth import get_user_model
+
+# Models
+User = get_user_model()
 
 
 class CoverLetter(models.Model):
@@ -10,6 +14,7 @@ class CoverLetter(models.Model):
 
     # Fields
     name = models.CharField(max_length=50)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cover_letter")
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)

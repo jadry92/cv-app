@@ -6,16 +6,23 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    name = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
     email = models.EmailField(max_length=254, unique=True)
     address = models.CharField(max_length=50, blank=True)
     birth_date = models.DateField(null=True, blank=True)
     phone = models.CharField(max_length=20, blank=True)
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 
 class ProfilePicture(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="profile_picture")
     picture = models.ImageField(blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.picture.name
@@ -77,6 +84,7 @@ class Experience(models.Model):
     title = models.CharField(max_length=50)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
+    current = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

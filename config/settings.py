@@ -126,10 +126,10 @@ STATICFILES_FINDERS = [
 # MEDIA
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-root
+MEDIA_URL = "/media/"
 MEDIA_PATH = env("MEDIA_PATH", default=f"{APPS_DIR}/media")
 MEDIA_ROOT = MEDIA_PATH
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-url
-MEDIA_URL = "/media/"
 
 # TEMPLATES
 # ------------------------------------------------------------------------------

@@ -7,7 +7,8 @@ from django import forms
 class ProfileForm(forms.Form):
     """Profile/user form."""
 
-    name = forms.CharField(max_length=50)
+    first_name = forms.CharField(max_length=50)
+    last_name = forms.CharField(max_length=50)
     email = forms.EmailField(max_length=254)
     address = forms.CharField(max_length=50)
     birth_date = forms.DateField()
@@ -20,7 +21,7 @@ class ProfileForm(forms.Form):
 
         return data
 
-    def save(self):
-        """Save data."""
-        data = self.cleaned_data
-        return data
+    def clean_picture_profile(self):
+        """Validate picture profile."""
+        picture_profile = self.cleaned_data["picture_profile"]
+        return picture_profile

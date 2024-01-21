@@ -5,6 +5,8 @@ config URL Configuration
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -14,4 +16,4 @@ urlpatterns = [
     path("", include("cv.urls")),
     path("cover-letter/", include("cover_letter.urls")),
     path("job/", include("job.urls")),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
