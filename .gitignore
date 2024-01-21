@@ -286,3 +286,5 @@ db.sqlite3
 data/
 .vscode/
 fixtures/
+
+clean_migrations.sh

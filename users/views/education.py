@@ -24,8 +24,13 @@ class EducationCreateView(LoginRequiredMixin, CreateView):
 
     template_name = "users/education/create.html"
     model = Education
-    fields = ["deegre", "description", "start_date", "end_date", "school"]
-    success_url = reverse_lazy("users:educations_list")
+    fields = ["degree", "description", "location", "start_date", "end_date", "school"]
+    success_url = reverse_lazy("users:education_list")
+
+    def form_valid(self, form):
+        """Assign the user to the education"""
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
 class EducationDetailView(LoginRequiredMixin, DetailView):
@@ -39,10 +44,15 @@ class EducationDetailView(LoginRequiredMixin, DetailView):
 class EducationUpdateView(LoginRequiredMixin, UpdateView):
     """Education update view"""
 
-    template_name = "users/education/update.html"
+    template_name = "users/education/edit.html"
     model = Education
-    fields = ["deegre", "description", "start_date", "end_date", "school"]
-    success_url = reverse_lazy("users:educations_list")
+    fields = ["degree", "description", "location", "start_date", "end_date", "school"]
+    success_url = reverse_lazy("users:education_list")
+
+    def form_valid(self, form):
+        """Assign the user to the education"""
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
 class EducationDeleteView(LoginRequiredMixin, DeleteView):
@@ -50,7 +60,7 @@ class EducationDeleteView(LoginRequiredMixin, DeleteView):
 
     template_name = "users/education/delete.html"
     model = Education
-    success_url = reverse_lazy("users:educations_list")
+    success_url = reverse_lazy("users:education_list")
 
     def get_queryset(self):
         """Return the education's owner"""

@@ -29,7 +29,7 @@
         <tbody>
           {% for education in educations %}
           <tr>
-            <th scope="row"><a href="{% url 'users:education_detail' education.pk %}">{{ education.title }}</a></th>
+            <th scope="row"><a href="{% url 'users:education_detail' education.pk %}">{{ education.degree }}</a></th>
             <td>{{ education.updated_at }}</td>
             <td>{{ education.created_at }}</td>
             <td>

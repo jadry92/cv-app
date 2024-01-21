@@ -46,7 +46,10 @@ class ExperienceCreateView(LoginRequiredMixin, CreateView):
     template_name = "users/experience/create.html"
     fields = [
         "title",
+        "company",
+        "location",
         "description",
+        "current",
         "start_date",
         "end_date",
     ]
@@ -65,7 +68,10 @@ class ExperienceUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "users/experience/edit.html"
     fields = [
         "title",
+        "company",
+        "location",
         "description",
+        "current",
         "start_date",
         "end_date",
     ]

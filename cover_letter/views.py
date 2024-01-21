@@ -22,7 +22,7 @@ class CoverLetterCreateView(LoginRequiredMixin, CreateView):
     """This class defines the create view for the cover letter model."""
 
     model = CoverLetter
-    fields = "__all__"
+    fields = ["name", "text"]
     template_name = "cover_letter/create.html"
     success_url = reverse_lazy("cover_letter:cover_letter_list")
 
@@ -44,7 +44,7 @@ class CoverLetterUpdateView(LoginRequiredMixin, UpdateView):
     """This class defines the update view for the cover letter model."""
 
     model = CoverLetter
-    fields = "__all__"
+    fields = ["name", "text"]
     template_name = "cover_letter/edit.html"
     success_url = reverse_lazy("cover_letter:cover_letter_list")
 

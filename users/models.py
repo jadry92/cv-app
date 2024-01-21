@@ -69,7 +69,8 @@ class Education(models.Model):
     degree = models.CharField(max_length=50)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
-    shcool = models.CharField(max_length=50)
+    school = models.CharField(max_length=50)
+    location = models.CharField(max_length=50)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -82,9 +83,11 @@ class Experience(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="experience")
     description = models.TextField(max_length=500, blank=True)
     title = models.CharField(max_length=50)
+    company = models.CharField(max_length=50)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     current = models.BooleanField(default=False)
+    location = models.CharField(max_length=50)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
