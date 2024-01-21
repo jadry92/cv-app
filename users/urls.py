@@ -6,7 +6,7 @@
 from django.urls import path
 
 # User Views
-from users.views import CreatePictureProfile, UserDetailView
+from users.views import UserUpdateView, UserDetailView
 
 # About views
 from users.views import AboutMeCreateView, AboutMeDeleteView, AboutMeDetailView, AboutMeListView, AboutMeUpdateView
@@ -53,8 +53,8 @@ from users.views import (
 app_name = "users"
 urlpatterns = [
     # profile
-    path("detail/<str:username>/", UserDetailView.as_view(), name="detail"),
-    #    path("update/<str:username>/", UserUpdateView.as_view(), name="update"),
+    path("me/", UserDetailView.as_view(), name="detail"),
+    path("me/update/", UserUpdateView.as_view(), name="update"),
     # about
     path("about/", AboutMeListView.as_view(), name="about_list"),
     path("about/create/", AboutMeCreateView.as_view(), name="about_create"),
@@ -91,8 +91,4 @@ urlpatterns = [
     path("skill/<int:pk>/", SkillDetailView.as_view(), name="skill_detail"),
     path("skill/<int:pk>/delete/", SkillDeleteView.as_view(), name="skill_delete"),
     path("skill/<int:pk>/edit/", SkillUpdateView.as_view(), name="skill_edit"),
-    # Photo TODO : Create a view for this
-    path("me/<str:username>/picture/create/", CreatePictureProfile.as_view(), name="picture"),
-    path("me/<str:username>/picture/update/", CreatePictureProfile.as_view(), name="picture"),
-    path("me/<str:username>/", UserDetailView.as_view(), name="user_detail"),
 ]

@@ -1,11 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h3>{{ user.username }}</h3>
-  <ul>
-    <li>{{ user.email }}</li>
-    <li>{{ user.first_name }}</li>
-    <li>{{ user.last_name }}</li>
-    <li><a href="{% url 'users:update' user.username %}">Update</a></li>
-  </ul>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="card-title">Profile {{ user.username }}</h3>
+          <h4 class="card-subtitle mb-2 text-muted">Last Update : {{ user.updated_at }}</h4>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><b>Email :</b> {{ user.email }}</li>
+            <li class="list-group-item"><b>Phone Number :</b> {{ user.number }}</li>
+            <li class="list-group-item"><b>Address :</b> {{ user.address }}</li>
+          </ul>
+          <a class="card-link" href="{% url 'users:update' %}">Update</a>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
+

@@ -4,64 +4,35 @@
 # Django
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import DetailView, UpdateView, CreateView
+from django.views.generic import TemplateView, FormView
 
-from django.urls import reverse
+from django.urls import reverse_lazy
 
 # Models
 User = get_user_model()
+# Forms
+from users.forms import ProfileForm
 
 
-class UserDetailView(LoginRequiredMixin, DetailView):
+class UserDetailView(LoginRequiredMixin, TemplateView):
     """User detail view."""
 
     template_name = "users/detail.html"
-    slug_field = "username"
-    slug_url_kwarg = "username"
     context_object_name = "user"
     model = User
 
+    def get_object(self):
+        """Return user's profile."""
+        return self.request.user
 
-class UserUpdateView(LoginRequiredMixin, UpdateView):
+
+class UserUpdateView(LoginRequiredMixin, FormView):
     """User update view."""
 
     template_name = "users/update.html"
-    model = User
-    fields = ["first_name", "last_name", "email"]
-    slug_field = "username"
-    slug_url_kwarg = "username"
+    form_class = ProfileForm
+    success_url = reverse_lazy("users:detail")
 
-    def get_success_url(self):
-        """Return to user's profile."""
-        username = self.object.username
-        return reverse("users:detail", kwargs={"username": username})
-
-
-class CreatePictureProfile(LoginRequiredMixin, CreateView):
-    """Create picture profile view."""
-
-    template_name = "users/picture_profile.html"
-    model = User
-    fields = ["picture_profile"]
-    slug_field = "username"
-    slug_url_kwarg = "username"
-
-    def get_success_url(self):
-        """Return to user's profile."""
-        username = self.object.username
-        return reverse("users:detail", kwargs={"username": username})
-
-
-class UpdatePictureProfile(LoginRequiredMixin, UpdateView):
-    """Update picture profile view."""
-
-    template_name = "users/picture_profile.html"
-    model = User
-    fields = ["picture_profile"]
-    slug_field = "username"
-    slug_url_kwarg = "username"
-
-    def get_success_url(self):
-        """Return to user's profile."""
-        username = self.object.username
-        return reverse("users:detail", kwargs={"username": username})
+    def get_object(self):
+        """Return user's profile."""
+        return self.request.user
