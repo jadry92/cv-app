@@ -1,3 +1,9 @@
+""" admin view for cv app """
+
+# Django
 from django.contrib import admin
 
-# Register your models here.
+# Models
+from cv.models import CV
+
+admin.site.register(CV)

@@ -3,7 +3,7 @@
 # Django imports
 from django.db import models
 
-# Local imports
+# Models
 from users.models import User, ProfilePicture, Skill, Experience, Education, Project, AboutMe
 
 
