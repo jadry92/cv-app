@@ -1,28 +1,68 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 
-{% block title %} About {% endblock title %}
+{% block title %} cv {% endblock title %}
 
 
 {%block content %}
 <div class="container">
   <div class="row">
     <h2 class="text-center">
-      {{ about.title }}
+      {{ cv.name }}
     </h2>
   </div>
   <div class="row mt-3">
     <div class="col">
-      {{ about.about }}
+      {{ cv.about_me.about }}
     </div>
   </div>
-
+  <div class="row mt-3">
+    {% for skill in cv.skills.all %}
+    <div class="col">
+      {{ skill.name }} - {{ skill.percentage }}%
+    </div>
+    {% endfor %}
+  </div>
+  <div class="row mt-3">
+    {% for exp in cv.experiences.all %}
+    <div class="col">
+      <h4>{{ exp.title }}</h4>
+      <h5>{{ exp.company }}</h5>
+      <p>{{ exp.description }}</p>
+      {% if exp.current %}
+      <p class="small">{{ exp.start_date }} - current</p>
+      {% else %}
+      <p class="small">{{ exp.start_date }} - {{ exp.end_date }}</p>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% for edu in cv.educations.all %}
+  <div class="row mt-3">
+    <div class="col">
+      <h4>{{ edu.degree }}</h4>
+      <h5>{{ edu.school }}</h5>
+      <p>{{ edu.description }}</p>
+      <p>{{ edu.location }}</p>
+      <p>{{ edu.start_date }} - {{ edu.end_date }}</p>
+    </div>
+  </div>
+  {% endfor %}
+  {% for pro in cv.projects.all %}
+  <div class="row mt-3">
+    <div class="col">
+      <h4>{{ pro.title }}</h4>
+      <a href="{{ pro.url }}" target="_blank">{{ pro.url }}</a>
+      <p>{{ pro.description }}</p>
+    </div>
+  </div>
+  {% endfor %}
   <div class="row mt-5">
     <div class="col-md-2 offset-md-2">
-      <a class="btn btn-warning" href="{% url 'users:about_edit' about.pk %}">edit</a>
+      <a class="btn btn-warning" href="{% url 'cv:cv_edit' cv.pk %}">edit</a>
     </div>
     <div class="col-md-2">
-      <a class="btn btn-danger" href="{% url 'users:about_delete' about.pk %}">delete</a>
+      <a class="btn btn-danger" href="{% url 'cv:cv_delete' cv.pk %}">delete</a>
     </div>
   </div>
 </div>

@@ -16,31 +16,55 @@
   {% if cvs %}
 
   <div class="row">
-    <div class="col">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Title</th>
-            <th scope="col">Updated</th>
-            <th scope="col">Created</th>
-            <th scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for cv in cvs %}
-          <tr>
-            <th scope="row"><a href="{% url 'cv:cv_detail' cv.pk %}">{{ cv.title }}</a></th>
-            <td>{{ cv.updated_at }}</td>
-            <td>{{ cv.created_at }}</td>
-            <td>
-              <a href="{% url 'cv:cv_edit' cv.pk %}">edit</a>
-              /
-              <a href="{% url 'cv:cv_delete' cv.pk %}">delete</a>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+    <div class="col-6">
+      {% for row in col_1 %}
+      <div class="card my-2">
+        <div class="card-header">
+          <h3 class="card-title">
+            {{ row.name }}
+          </h3>
+        </div>
+        <div class="card-body">
+          <p class="card-text">
+            some
+          </p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <a href="{% url 'cv:cv_edit' row.id %}">edit</a>
+            </li>
+            <li class="list-group-item">
+              <a href="{% url 'cv:cv_delete' row.id %}">delete</a>
+            </li>
+          </ul>
+          <a href="{% url 'cv:cv_detail' row.id %}" class="stretched-link"></a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="col-6">
+      {% for row in col_2 %}
+      <div class="card my-2">
+        <div class="card-header">
+          <h3 class="card-title">
+            {{ row.name }}
+          </h3>
+        </div>
+        <div class="card-body">
+          <p class="card-text">
+            some
+          </p>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <a href="{% url 'cv:cv_edit' row.id %}">edit</a>
+            </li>
+            <li class="list-group-item">
+              <a href="{% url 'cv:cv_delete' row.id %}">delete</a>
+            </li>
+          </ul>
+          <a href="{% url 'cv:cv_detail' row.id %}" class="stretched-link"></a>
+        </div>
+      </div>
+      {% endfor %}
     </div>
   </div>
 
