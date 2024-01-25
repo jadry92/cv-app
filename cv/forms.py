@@ -24,6 +24,12 @@ class CVForm(forms.ModelForm):
         self.fields["Experiences"].queryset = Experience.objects.filter(user=self.user)
         self.fields["Educations"].queryset = Education.objects.filter(user=self.user)
 
+        if self.instance.pk:
+            self.fields["Projects"].initial = self.instance.projects.all()
+            self.fields["Skills"].initial = self.instance.skills.all()
+            self.fields["Experiences"].initial = self.instance.experiences.all()
+            self.fields["Educations"].initial = self.instance.educations.all()
+
     class Meta:
         model = CV
         fields = ["name", "profile_picture", "about_me"]

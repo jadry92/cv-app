@@ -3,6 +3,8 @@
 # Django
 from django.urls import reverse_lazy
 from django.views.generic import FormView, ListView, CreateView, UpdateView, DeleteView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404
 
 # Models
 from cv.models import CV, CVTemplate
@@ -11,7 +13,7 @@ from cv.models import CV, CVTemplate
 from cv.forms import CVForm, CVTemplateForm
 
 
-class CVListView(ListView):
+class CVListView(LoginRequiredMixin, ListView):
     """CV List View"""
 
     template_name = "cv/list.html"
@@ -39,7 +41,7 @@ class CVListView(ListView):
         return context
 
 
-class CVDetailView(DetailView):
+class CVDetailView(LoginRequiredMixin, DetailView):
     """CV Detail View"""
 
     template_name = "cv/detail.html"
@@ -54,7 +56,7 @@ class CVDetailView(DetailView):
         return context
 
 
-class CVCreateView(CreateView):
+class CVCreateView(LoginRequiredMixin, CreateView):
     """CV Create View"""
 
     template_name = "cv/create.html"
@@ -65,7 +67,7 @@ class CVCreateView(CreateView):
     def form_valid(self, form):
         """If the form is valid, save the associated model."""
         form.instance.user = self.request.user
-        self.object = form.save()
+        form.save()
 
         return super().form_valid(form)
 
@@ -76,7 +78,7 @@ class CVCreateView(CreateView):
         return kwargs
 
 
-class CVUpdateView(UpdateView):
+class CVUpdateView(LoginRequiredMixin, FormView):
     """CV Update View"""
 
     template_name = "cv/edit.html"
@@ -84,33 +86,46 @@ class CVUpdateView(UpdateView):
     pk_url_kwarg = "pk"
     form_class = CVForm
 
-    def get_form(self, form_class=None):
+    def get_object(self):
+        """Return the user's cv."""
+        return get_object_or_404(CV, pk=self.kwargs.get(self.pk_url_kwarg), user=self.request.user)
 
-
-    def get_queryset(self):
-        """Return the cvs for the current user."""
-        return CV.objects.filter(user=self.request.user)
+    def get_context_data(self, **kwargs):
+        """Add the user to the context."""
+        context = super().get_context_data(**kwargs)
+        context["object"] = self.get_object()
+        return context
 
     def form_valid(self, form):
         """If the form is valid, save the associated model."""
         form.instance.user = self.request.user
-        self.object = form.save()
-
+        instance = form.save(commit=False)
+        instance.projects.set(form.cleaned_data["Projects"])
+        instance.skills.set(form.cleaned_data["Skills"])
+        instance.experiences.set(form.cleaned_data["Experiences"])
+        instance.educations.set(form.cleaned_data["Educations"])
+        instance.save()
         return super().form_valid(form)
 
     def get_form_kwargs(self):
         """Return the keyword arguments for instantiating the form."""
         kwargs = super().get_form_kwargs()
-        kwargs["user"] = self.request.user
+        kwargs.update({"user": self.request.user})
+        kwargs.update({"instance": self.get_object()})
         return kwargs
 
 
-class CVDeleteView(DeleteView):
+class CVDeleteView(LoginRequiredMixin, DeleteView):
     """CV Delete View"""
 
     template_name = "cv/delete.html"
     model = CV
     success_url = reverse_lazy("cv:cv_list")
+    pk_url_kwarg = "pk"
+
+    def get_queryset(self):
+        """Return the cvs for the current user."""
+        return CV.objects.filter(user=self.request.user)
 
 
 class CVTemplateListView(ListView):
