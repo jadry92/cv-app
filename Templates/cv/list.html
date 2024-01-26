@@ -20,8 +20,8 @@
       {% for row in col_1 %}
       <div class="card my-2">
         <div class="card-header">
-          <h3 class="card-title">
-            {{ row.name }}
+          <h3 class="card-title text-center">
+            <a href="{% url 'cv:cv_detail' row.id %}" class="link-success">{{ row.name }}</a>
           </h3>
         </div>
         <div class="card-body">
@@ -36,7 +36,6 @@
               <a href="{% url 'cv:cv_delete' row.id %}">delete</a>
             </li>
           </ul>
-          <a href="{% url 'cv:cv_detail' row.id %}" class="stretched-link"></a>
         </div>
       </div>
       {% endfor %}
@@ -46,7 +45,7 @@
       <div class="card my-2">
         <div class="card-header">
           <h3 class="card-title">
-            {{ row.name }}
+            <a href="{% url 'cv:cv_detail' row.id %}" class="link-success">{{ row.name }}</a>
           </h3>
         </div>
         <div class="card-body">
@@ -61,7 +60,6 @@
               <a href="{% url 'cv:cv_delete' row.id %}">delete</a>
             </li>
           </ul>
-          <a href="{% url 'cv:cv_detail' row.id %}" class="stretched-link"></a>
         </div>
       </div>
       {% endfor %}
@@ -78,6 +76,11 @@
   <div class="row">
     <div class="col">
       <a href="{% url 'cv:cv_create' %}" class="btn btn-primary">{% translate "Create" %}</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <a href="{% url 'cv:cv_template_list' %}" class="">CV templates</a>
     </div>
   </div>
   {% endblock %}

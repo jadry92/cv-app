@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}{% translate "cvs" %}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <h2 class="text-center">
+      Templates for CV
+    </h2>
+  </div>
+  {% if cv_templates %}
+  <div class="row">
+    {% for cv_temp in cv_templates %}
+    <div class="col-6">
+      <div class="card my-2">
+        <div class="card-header">
+          <h3 class="card-title">
+            {{ cv_temp.name }}
+          </h3>
+        </div>
+        <div class="card-body">
+          <p class="card-text">
+            {{ cv_temp.template_name }}
+          </p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% else %}
+  <div class="row">
+    <div class="col">
+      No CV Tempates
+    </div>
+  </div>
+  {% endif %}
+  {% endblock %}

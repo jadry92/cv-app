@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import FormView, ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
+from django.http import Http404
 
 # Models
 from cv.models import CV, CVTemplate
@@ -56,7 +57,7 @@ class CVDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class CVCreateView(LoginRequiredMixin, CreateView):
+class CVCreateView(LoginRequiredMixin, FormView):
     """CV Create View"""
 
     template_name = "cv/create.html"
@@ -67,7 +68,18 @@ class CVCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         """If the form is valid, save the associated model."""
         form.instance.user = self.request.user
-        form.save()
+
+        instance = form.save(commit=False)
+        instance.save()
+        instance.projects.set(form.cleaned_data["Projects"])
+        instance.skills.set(form.cleaned_data["Skills"])
+        instance.experiences.set(form.cleaned_data["Experiences"])
+        instance.educations.set(form.cleaned_data["Educations"])
+        instance.social_networks.set(form.cleaned_data["SocialNetworks"])
+        temp = CVTemplate.objects.get(pk=form.cleaned_data["Template"].pk)
+        temp.cv.add(instance)
+        temp.save()
+        instance.save()
 
         return super().form_valid(form)
 
@@ -104,6 +116,7 @@ class CVUpdateView(LoginRequiredMixin, FormView):
         instance.skills.set(form.cleaned_data["Skills"])
         instance.experiences.set(form.cleaned_data["Experiences"])
         instance.educations.set(form.cleaned_data["Educations"])
+        instance.social_networks.set(form.cleaned_data["SocialNetworks"])
         instance.save()
         return super().form_valid(form)
 
@@ -131,28 +144,110 @@ class CVDeleteView(LoginRequiredMixin, DeleteView):
 class CVTemplateListView(ListView):
     """CV Template List View"""
 
-    template_name = "cv/template_list.html"
-    model = CVTemplate
+    template_name = "cv/cv_templates/list.html"
+    context_object_name = "cv_templates"
+
+    def get_queryset(self):
+        """Return the cvs for the current user."""
+        return CVTemplate.objects.all()
 
 
 class CVTemplateDetailView(DetailView):
     """CV Template Detail View"""
 
-    template_name = "cv/template_detail.html"
     model = CVTemplate
     pk_url_kwarg = "pk"
 
+    def get_context_data(self, **kwargs):
+        """Add the user to the context."""
+        context = super().get_context_data(**kwargs)
+        dumy_data = {
+            "user": {
+                "first_name": "John",
+                "last_name": "Doe",
+                "email": "john@text.com",
+                "phone": "123456789",
+                "address": "123 Main St",
+                "birth_date": "1990-01-01",
+            },
+            "name": "cv_dumy",
+            "profile_picture": "",
+            "skills": {
+                "all": [
+                    {
+                        "name": "skill name",
+                        "percentage": 50,
+                    }
+                ]
+            },
+            "experiences": {
+                "all": [
+                    {
+                        "description": "some infor about yourd education",
+                        "start_date": "2021-01-01",
+                        "end_date": "2021-01-01",
+                        "location": "some location",
+                        "title": "some title",
+                        "company": "some company",
+                    }
+                ]
+            },
+            "educations": {
+                "all": [
+                    {
+                        "description": "some infor about yourd education",
+                        "start_date": "2021-01-01",
+                        "end_date": "2021-01-01",
+                        "location": "some location",
+                        "school": "some school",
+                        "degree": "some degree",
+                    }
+                ]
+            },
+            "projects": {
+                "all": [
+                    {
+                        "description": "info about the project",
+                        "title": "project title",
+                        "url": "project link",
+                    }
+                ]
+            },
+            "social_networks": {
+                "all": [
+                    {
+                        "name": "facebook",
+                        "url": "https://www.facebook.com/",
+                    }
+                ]
+            },
+            "about_me": "Experienced software engineer with a passion for developing innovative programs that expedite the efficiency and effectiveness of organizational success. Well-versed in technology and writing code to create systems that are reliable and user-friendly.",
+        }
+        context["cv"] = dumy_data
+        return context
 
-class CVTemplateReadView(FormView):
-    """CV Template Read View"""
+    def get_template_names(self):
+        """Return the template name."""
+        return [self.object.template_name]
 
-    template_name = "cv/template_read.html"
-    form_class = CVTemplateForm
-    success_url = reverse_lazy("cv:cv_templates_list")
-    pk_url_kwarg = "pk"
 
-    def get_form_kwargs(self):
-        """Return the keyword arguments for instantiating the form."""
-        kwargs = super(CVTemplateReadView, self).get_form_kwargs()
-        kwargs["template"] = CVTemplate.objects.get(pk=self.kwargs["pk"])
-        return kwargs
+class CVPreviewView(DetailView):
+    """CV Preview View"""
+
+    def get_object(self, queryset=None):
+        """Return the user's cv."""
+        return get_object_or_404(CV, pk=self.kwargs.get("pk_cv"), user=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        """Add the user to the context."""
+        context = super().get_context_data(**kwargs)
+        context["cv_template"] = CVTemplate.objects.get(id=self.kwargs.get("pk_temp"))
+        return context
+
+    def get_template_names(self):
+        """Return the template name."""
+        try:
+            template = self.object.template.all().get(id=self.kwargs.get("pk_temp")).template_name
+            return [template]
+        except:
+            raise Http404("Template does not exist")

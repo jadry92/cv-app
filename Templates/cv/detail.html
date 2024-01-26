@@ -57,6 +57,15 @@
     </div>
   </div>
   {% endfor %}
+  <div class="row mt-3">
+  {% for temp in cv.template.all %}
+  <div class="row mt-3">
+    <div class="col">
+      <h4>{{ temp.name }}</h4>
+    </div>
+  </div>
+  {% endfor %}
+  </div>
   <div class="row mt-5">
     <div class="col-md-2 offset-md-2">
       <a class="btn btn-warning" href="{% url 'cv:cv_edit' cv.pk %}">edit</a>
