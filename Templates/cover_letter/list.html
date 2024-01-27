@@ -10,7 +10,7 @@
 <div class="container">
   <div class="row">
     <h2 class="text-center">
-      cover_letters
+      Cover Letters
     </h2>
   </div>
   {% if cover_letters %}
@@ -29,13 +29,13 @@
         <tbody>
           {% for cover_letter in cover_letters %}
           <tr>
-            <th scope="row"><a href="{% url 'cover_letter:cover_letter_detail' cover_letter.pk %}">{{ about.title }}</a></th>
+            <th scope="row"><a href="{% url 'cover_letter:cover_letter_detail' cover_letter.id %}">{{ cover_letter.name }}</a></th>
             <td>{{ cover_letter.updated_at }}</td>
             <td>{{ cover_letter.created_at }}</td>
             <td>
-              <a href="{% url 'cover_letter:cover_letter_edit' cover_letter.pk %}">edit</a>
+              <a href="{% url 'cover_letter:cover_letter_edit' cover_letter.id %}">edit</a>
               /
-              <a href="{% url 'cover_letter:cover_letter_delete' cover_letter.pk %}">delete</a>
+              <a href="{% url 'cover_letter:cover_letter_delete' cover_letter.id %}">delete</a>
             </td>
           </tr>
           {% endfor %}

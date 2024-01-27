@@ -22,13 +22,31 @@ class Job(models.Model):
     """This is the model of the job."""
 
     name = models.CharField(max_length=50)
-    notes = models.TextField()
     url = models.URLField()
-    company = models.URLField()
     status = models.IntegerField(choices=JOB_STATUS, default=0)
-    cover_letter = models.ForeignKey(CoverLetter, on_delete=models.SET_NULL, related_name="job", null=True)
-    cv = models.ForeignKey(CV, on_delete=models.SET_NULL, related_name="job", null=True)
+    cover_letter = models.ForeignKey(CoverLetter, on_delete=models.SET_NULL, related_name="job", null=True, blank=True)
+    cv = models.ForeignKey(CV, on_delete=models.SET_NULL, related_name="job", null=True, blank=True)
+    date_applied = models.DateField(null=True, blank=True)
+    deadline = models.DateField(null=True, blank=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    date_applied = models.DateField(null=True)
-    deadline = models.DateField(null=True)
+
+    def __str__(self):
+        """Return name of the job."""
+        return self.name
+
+
+class JobDetails(models.Model):
+    """This is the model of the job details.
+    This model will be populated by an AI and scraping alogrithm
+    """
+
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name="job_details")
+    description = models.TextField()
+    relevant_info = models.TextField()
+    position = models.CharField(max_length=50)
+    company = models.CharField(max_length=50)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

@@ -18,6 +18,6 @@ urlpatterns = [
     path("", CoverLetterListView.as_view(), name="cover_letter_list"),
     path("create/", CoverLetterCreateView.as_view(), name="cover_letter_create"),
     path("<int:pk>/", CoverLetterDetailView.as_view(), name="cover_letter_detail"),
-    path("<int:pk>/update/", CoverLetterUpdateView.as_view(), name="cover_letter_edit"),
+    path("<int:pk>/edit/", CoverLetterUpdateView.as_view(), name="cover_letter_edit"),
     path("<int:pk>/delete/", CoverLetterDeleteView.as_view(), name="cover_letter_delete"),
 ]

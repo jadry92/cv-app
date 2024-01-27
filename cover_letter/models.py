@@ -17,7 +17,7 @@ class CoverLetter(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cover_letter")
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    modified_at = models.DateTimeField(auto_now=True)
+    update_at = models.DateTimeField(auto_now=True)
 
     # Methods
     def __str__(self):
