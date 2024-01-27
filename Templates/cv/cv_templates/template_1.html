@@ -1,58 +1,96 @@
-{% extends "base.html" %}
+{% load static i18n %}
 
-{% block content %}
-<div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
-  <main class="w-full max-w-3xl p-4 md:p-8 bg-white dark:bg-gray-800 shadow-lg rounded-lg">
-    <header class="flex flex-col md:flex-row items-center text-center md:text-left space-y-2 md:space-y-0 md:space-x-4">
-      <img src="/placeholder.svg" alt="John Doe" class="w-24 h-24 rounded-full" width="100" height="100"
-        style="aspect-ratio: 100 / 100; object-fit: cover;">
-      <div>
-        <h1 class="text-3xl font-bold">{{ cv.user.first_name }} {{ cv.user.last_name }}</h1>
-        <p class="text-gray-500 dark:text-gray-400">{{ cv.user.email }} | {{ cv.user.phone }}</p>
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="some description" />
+    <meta name="author" content="my name"/>
+    <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}" />
+    <!-- Latest compiled and minified Bootstrap CSS -->
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"
+      integrity="sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <!-- Your stuff: Third-party CSS libraries go here -->
+    <!-- This file stores project-specific CSS -->
+    <link href="{% static 'css/project.css' %}" rel="stylesheet" />
+    <!-- Le javascript ================================================== -->
+    <!-- Bootstrap JS -->
+    <script defer
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"
+        integrity="sha512-1/RvZTcCDEUjY/CypiMz+iqqtaoQfAITmNSJY17Myp4Ms5mdxPS5UV7iOfdZoxcGhzFbOm6sntTKJppjvuhg4g=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+      <!-- Your stuff: Third-party javascript libraries go here -->
+      <script defer src="{% static 'js/project.js' %}"></script>
+  </head>
+  <body>
+    <div class="container-fluid vh-100">
+      <div class="row">
+        <div class="col">
+          <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
+            <main class="w-full max-w-3xl p-4 md:p-8 bg-white dark:bg-gray-800 shadow-lg rounded-lg">
+              <header class="flex flex-col md:flex-row items-center text-center md:text-left space-y-2 md:space-y-0 md:space-x-4">
+                <img src="/placeholder.svg" alt="" class="w-24 h-24 rounded-full" width="100" height="100"
+                  style="aspect-ratio: 100 / 100; object-fit: cover;">
+                <div>
+                  <h1 class="text-3xl font-bold">{{ cv.user.first_name }} {{ cv.user.last_name }}</h1>
+                  <p class="text-gray-500 dark:text-gray-400">{{ cv.user.email }} | {{ cv.user.phone }}</p>
+                </div>
+              </header>
+              <section class="mt-8">
+                <h2 class="text-2xl font-bold">About</h2>
+                <p class="mt-2 text-gray-600 dark:text-gray-400">
+                  {{ cv.about_me }}
+                </p>
+              </section>
+              <section class="mt-8">
+                <h2 class="text-2xl font-bold">Education</h2>
+                {% for education in cv.educations.all %}
+                <div class="mt-2">
+                  <h3 class="text-lg font-semibold">{{ education.title }}</h3>
+                  <p class="text-gray-600 dark:text-gray-400">{{ education.school }},{{ education.end_date }}</p>
+                </div>
+                {% endfor %}
+              </section>
+              <section class="mt-8">
+                <h2 class="text-2xl font-bold">Work Experience</h2>
+                <div class="mt-2">
+                  {% for experience in cv.experiences.all %}
+                  <h3 class="text-lg font-semibold">{{ experience.title }} at {{ experience.company }}</h3>
+                  <p class="text-gray-600 dark:text-gray-400">{{ experience.start_date }} - {{ experience.end_date }}</p>
+                  <ul class="list-disc list-inside mt-2 text-gray-600 dark:text-gray-400">
+                    {{ experience.description }}
+                  </ul>
+                  {% endfor %}
+                </div>
+              </section>
+              <section class="mt-8">
+                <h2 class="text-2xl font-bold">Skills</h2>
+                <ul class="grid grid-cols-2 gap-2 mt-2 text-gray-600 dark:text-gray-400">
+                  {% for skill in cv.skills.all %}
+                  <il>{{ skill.name }}</il>
+                  {% endfor %}
+                </ul>
+              </section>
+              <footer class="mt-8">
+                <h2 class="text-2xl font-bold">Additional Information</h2>
+                <div class="mt-2">
+                  <h3 class="text-lg font-semibold">Languages</h3>
+                  <p class="text-gray-600 dark:text-gray-400">English, Spanish</p>
+                </div>
+              </footer>
+            </main>
+          </div>
+        </div>
       </div>
-    </header>
-    <section class="mt-8">
-      <h2 class="text-2xl font-bold">About</h2>
-      <p class="mt-2 text-gray-600 dark:text-gray-400">
-        {{ cv.about_me }}
-      </p>
-    </section>
-    <section class="mt-8">
-      <h2 class="text-2xl font-bold">Education</h2>
-      {% for education in cv.educations.all %}
-      <div class="mt-2">
-        <h3 class="text-lg font-semibold">{{ education.title }}</h3>
-        <p class="text-gray-600 dark:text-gray-400">{{ education.school }},{{ education.end_date }}</p>
-      </div>
-      {% endfor %}
-    </section>
-    <section class="mt-8">
-      <h2 class="text-2xl font-bold">Work Experience</h2>
-      <div class="mt-2">
-        {% for experience in cv.experiences.all %}
-        <h3 class="text-lg font-semibold">{{ experience.title }} at {{ experience.company }}</h3>
-        <p class="text-gray-600 dark:text-gray-400">{{ experience.start_date }} - {{ experience.end_date }}</p>
-        <ul class="list-disc list-inside mt-2 text-gray-600 dark:text-gray-400">
-          {{ experience.description }}
-        </ul>
-        {% endfor %}
-      </div>
-    </section>
-    <section class="mt-8">
-      <h2 class="text-2xl font-bold">Skills</h2>
-      <ul class="grid grid-cols-2 gap-2 mt-2 text-gray-600 dark:text-gray-400">
-        {% for skill in cv.skills.all %}
-        <il>{{ skill.name }}</il>
-        {% endfor %}
-      </ul>
-    </section>
-    <footer class="mt-8">
-      <h2 class="text-2xl font-bold">Additional Information</h2>
-      <div class="mt-2">
-        <h3 class="text-lg font-semibold">Languages</h3>
-        <p class="text-gray-600 dark:text-gray-400">English, Spanish</p>
-      </div>
-    </footer>
-  </main>
-</div>
-{% endblock content %}
+    </div>
+  </body>
+</html>

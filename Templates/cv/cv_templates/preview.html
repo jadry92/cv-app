@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% with template_name=template_name %}
+{% include template_name %}
+{% endwith %}
+{% endblock content %}

@@ -1,17 +1,25 @@
 """ CV Views """
+# Utils
+import functools
+import ssl
 
 # Django
 from django.urls import reverse_lazy
-from django.views.generic import FormView, ListView, CreateView, UpdateView, DeleteView, DetailView
+from django.conf import settings
+from django.views.generic import FormView, ListView, DeleteView, DetailView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.http import Http404
+
+# django weasyprint
+from django_weasyprint.views import WeasyTemplateResponse, WeasyTemplateResponseMixin
+from django_weasyprint.utils import django_url_fetcher
 
 # Models
 from cv.models import CV, CVTemplate
 
 # Forms
-from cv.forms import CVForm, CVTemplateForm
+from cv.forms import CVForm
 
 
 class CVListView(LoginRequiredMixin, ListView):
@@ -231,23 +239,61 @@ class CVTemplateDetailView(DetailView):
         return [self.object.template_name]
 
 
-class CVPreviewView(DetailView):
+class CVPreviewView(LoginRequiredMixin, DetailView):
     """CV Preview View"""
+
+    template_name = "cv/cv_templates/preview.html"
+    context_object_name = "cv"
 
     def get_object(self, queryset=None):
         """Return the user's cv."""
-        return get_object_or_404(CV, pk=self.kwargs.get("pk_cv"), user=self.request.user)
+        return get_object_or_404(CV, id=self.kwargs.get("pk_cv"), user=self.request.user)
 
     def get_context_data(self, **kwargs):
         """Add the user to the context."""
         context = super().get_context_data(**kwargs)
-        context["cv_template"] = CVTemplate.objects.get(id=self.kwargs.get("pk_temp"))
-        return context
-
-    def get_template_names(self):
-        """Return the template name."""
         try:
-            template = self.object.template.all().get(id=self.kwargs.get("pk_temp")).template_name
-            return [template]
+            context["template_name"] = CVTemplate.objects.get(id=self.kwargs.get("pk_temp")).template_name
+            return context
         except:
-            raise Http404("Template does not exist")
+            raise Http404("Template does not exist or cv does not have a template")
+
+
+def custom_url_fetcher(url, *args, **kwargs):
+    # rewrite requests for CDN URLs to file path in STATIC_ROOT to use local file
+    cloud_storage_url = "https://cdnjs.cloudflare.com/ajax/libs/"
+    # if url.startswith(cloud_storage_url):
+    #    url = "file://" + url.replace(cloud_storage_url, settings.STATIC_URL)
+    return django_url_fetcher(url, *args, **kwargs)
+
+
+class CustomWeasyTemplateResponse(WeasyTemplateResponse):
+    # customized response class to pass a kwarg to URL fetcher
+    def get_url_fetcher(self):
+        # disable host and certificate check
+        context = ssl.create_default_context()
+        context.check_hostname = False
+        context.verify_mode = ssl.CERT_NONE
+        return functools.partial(custom_url_fetcher, ssl_context=context)
+
+
+class DownloadCVView(LoginRequiredMixin, WeasyTemplateResponseMixin, DetailView):
+    """This view is to generate de cv in pdf and download"""
+
+    pdf_stylesheets = ["https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"]
+    response_class = CustomWeasyTemplateResponse
+
+    def get_object(self, queryset=None):
+        """Return the user's cv."""
+        return get_object_or_404(CV, id=self.kwargs.get("pk_cv"), user=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        """Add the user to the context."""
+        context = super().get_context_data(**kwargs)
+        try:
+            self.template_name = CVTemplate.objects.get(id=self.kwargs.get("pk_temp")).template_name
+            context["template_name"] = self.template_name
+            context["cv"] = CV.objects.get(id=self.kwargs.get("pk_cv"), user=self.request.user)
+            return context
+        except:
+            raise Http404("Template does not exist or cv does not have a template")

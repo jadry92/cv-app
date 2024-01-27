@@ -38,10 +38,3 @@ class CVForm(forms.ModelForm):
     class Meta:
         model = CV
         fields = ["name", "profile_picture", "about_me"]
-
-
-class CVTemplateForm(forms.ModelForm):
-    class Meta:
-        model = CVTemplate
-        fields = "__all__"
-        exclude = ["user", "created", "modified"]

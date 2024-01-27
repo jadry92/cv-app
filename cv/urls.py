@@ -13,6 +13,7 @@ from cv.views import (
     CVTemplateListView,
     CVTemplateDetailView,
     CVPreviewView,
+    DownloadCVView,
 )
 
 
@@ -21,6 +22,7 @@ app_name = "cv"
 urlpatterns = [
     path("cv/", CVListView.as_view(), name="cv_list"),
     path("cv/create/", CVCreateView.as_view(), name="cv_create"),
+    path("cv/<int:pk_cv>/download/<int:pk_temp>/", DownloadCVView.as_view(), name="cv_download"),
     path("cv/<int:pk_cv>/preview/<int:pk_temp>/", CVPreviewView.as_view(), name="cv_preview"),
     path("cv/<int:pk>/", CVDetailView.as_view(), name="cv_detail"),
     path("cv/<int:pk>/edit/", CVUpdateView.as_view(), name="cv_edit"),
