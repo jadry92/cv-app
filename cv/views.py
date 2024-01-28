@@ -164,6 +164,7 @@ class CVTemplateDetailView(DetailView):
     """CV Template Detail View"""
 
     model = CVTemplate
+    template_name = "cv/cv_templates/preview.html"
     pk_url_kwarg = "pk"
 
     def get_context_data(self, **kwargs):
@@ -232,11 +233,8 @@ class CVTemplateDetailView(DetailView):
             "about_me": "Experienced software engineer with a passion for developing innovative programs that expedite the efficiency and effectiveness of organizational success. Well-versed in technology and writing code to create systems that are reliable and user-friendly.",
         }
         context["cv"] = dumy_data
+        context["template_name"] = self.object.template_name
         return context
-
-    def get_template_names(self):
-        """Return the template name."""
-        return [self.object.template_name]
 
 
 class CVPreviewView(LoginRequiredMixin, DetailView):
