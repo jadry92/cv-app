@@ -18,7 +18,7 @@ class CV(models.Model):
     educations = models.ManyToManyField(Education, related_name="cv")
     projects = models.ManyToManyField(Project, related_name="cv")
     social_networks = models.ManyToManyField(SocialNetwork, related_name="cv")
-    about_me = models.ForeignKey(AboutMe, on_delete=models.CASCADE, related_name="cv")
+    about_me = models.ForeignKey(AboutMe, on_delete=models.SET_NULL, related_name="cv", null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

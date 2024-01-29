@@ -6,6 +6,7 @@ astroid==2.15.6
 asttokens==2.4.0
 backcall==0.2.0
 black==23.9.1
+Brotli==1.1.0
 certifi==2023.7.22
 cffi==1.16.0
 cfgv==3.4.0
@@ -15,6 +16,7 @@ click==8.1.7
 coverage==7.3.1
 crispy-bootstrap5==0.7
 cryptography==41.0.4
+cssselect2==0.7.0
 decorator==5.1.1
 defusedxml==0.7.1
 dill==0.3.7
@@ -28,12 +30,16 @@ django-extensions==3.2.3
 django-htmx==1.17.2
 django-stubs==4.2.4
 django-stubs-ext==4.2.2
+django-weasyprint==2.2.2
+exceptiongroup==1.2.0
 executing==1.2.0
 factory-boy==3.3.0
 Faker==19.6.2
 filelock==3.12.4
 flake8==6.1.0
 flake8-isort==6.1.0
+fonttools==4.47.2
+html5lib==1.1
 identify==2.5.29
 idna==3.4
 iniconfig==2.0.0
@@ -63,12 +69,14 @@ ptyprocess==0.7.0
 pure-eval==0.2.2
 pycodestyle==2.11.0
 pycparser==2.21
+pydyf==0.8.0
 pyflakes==3.1.0
 Pygments==2.16.1
 PyJWT==2.8.0
 pylint==2.17.5
 pylint-django==2.5.3
 pylint-plugin-utils==0.8.2
+pyphen==0.14.0
 pytest==7.4.2
 pytest-django==4.5.2
 pytest-sugar==0.9.7
@@ -82,6 +90,8 @@ six==1.16.0
 sqlparse==0.4.4
 stack-data==0.6.2
 termcolor==2.3.0
+tinycss2==1.2.1
+tomli==2.0.1
 tomlkit==0.12.1
 traitlets==5.10.0
 types-pytz==2023.3.1.1
@@ -90,6 +100,9 @@ typing_extensions==4.8.0
 urllib3==2.0.6
 virtualenv==20.24.5
 wcwidth==0.2.6
+weasyprint==60.2
+webencodings==0.5.1
 Werkzeug==3.0.0
 whitenoise==6.5.0
 wrapt==1.15.0
+zopfli==0.2.3
