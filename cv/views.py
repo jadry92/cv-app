@@ -1,4 +1,5 @@
 """ CV Views """
+
 # Utils
 import functools
 import ssl
@@ -12,7 +13,7 @@ from django.shortcuts import get_object_or_404
 from django.http import Http404
 
 # django weasyprint
-from django_weasyprint.views import WeasyTemplateResponse, WeasyTemplateResponseMixin
+from django_weasyprint.views import WeasyTemplateResponse, WeasyTemplateResponseMixin, WeasyTemplateView
 from django_weasyprint.utils import django_url_fetcher
 
 # Models
@@ -257,29 +258,10 @@ class CVPreviewView(LoginRequiredMixin, DetailView):
             raise Http404("Template does not exist or cv does not have a template")
 
 
-def custom_url_fetcher(url, *args, **kwargs):
-    # rewrite requests for CDN URLs to file path in STATIC_ROOT to use local file
-    cloud_storage_url = "https://cdnjs.cloudflare.com/ajax/libs/"
-    # if url.startswith(cloud_storage_url):
-    #    url = "file://" + url.replace(cloud_storage_url, settings.STATIC_URL)
-    return django_url_fetcher(url, *args, **kwargs)
-
-
-class CustomWeasyTemplateResponse(WeasyTemplateResponse):
-    # customized response class to pass a kwarg to URL fetcher
-    def get_url_fetcher(self):
-        # disable host and certificate check
-        context = ssl.create_default_context()
-        context.check_hostname = False
-        context.verify_mode = ssl.CERT_NONE
-        return functools.partial(custom_url_fetcher, ssl_context=context)
-
-
-class DownloadCVView(LoginRequiredMixin, WeasyTemplateResponseMixin, DetailView):
+class DownloadCVView(LoginRequiredMixin, WeasyTemplateView):
     """This view is to generate de cv in pdf and download"""
 
-    pdf_stylesheets = ["https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"]
-    response_class = CustomWeasyTemplateResponse
+    pdf_stylesheets = ["static/css/bootstrap.min.css"]
 
     def get_object(self, queryset=None):
         """Return the user's cv."""
