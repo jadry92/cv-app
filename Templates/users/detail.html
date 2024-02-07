@@ -6,17 +6,17 @@
       <div class="card">
         <div class="row">
           <div class="col-4">
-            <img src="{{ picture_profile.picture.url }}" class="img-fluid rounded-start" alt=""></img>
+            <img src="{{ picture_profile.picture.url }}" class="img-fluid rounded-start" alt="" width="100px" height="100px"></img>
           </div>
           <div class="col-8">
             <div class="card-body">
               <h3 class="card-title">Profile {{ user.username }}</h3>
               <h4 class="card-subtitle mb-2 text-muted">Last Update : {{ user.updated_at }}</h4>
               <ul class="list-group list-group-flush">
-                <li class="list-group-item"><b>Name :</b> {{ user.name }}</li>
-                <li class="list-group-item"><b>Email :</b> {{ user.email }}</li>
-                <li class="list-group-item"><b>Phone Number :</b> {{ user.phone }}</li>
-                <li class="list-group-item"><b>Address :</b> {{ user.address }}</li>
+                <li class="list-group-item"><b>Name : </b>{{ user.first_name }} {{ user.last_name }}</li>
+                <li class="list-group-item"><b>Email : </b>{{ user.email }}</li>
+                <li class="list-group-item"><b>Phone Number : </b>{{ user.phone }}</li>
+                <li class="list-group-item"><b>Address : </b>{{ user.address }}</li>
               </ul>
               <a class="btn btn-primary text-end" href="{% url 'users:update' %}">Update</a>
             </div>

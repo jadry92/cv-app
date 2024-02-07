@@ -21,7 +21,7 @@
         {% for education in cv.educations.all %}
         <div class="mt-2">
           <h3 class="text-lg font-semibold">{{ education.title }}</h3>
-          <p class="text-gray-600 dark:text-gray-400">{{ education.school }},{{ education.end_date }}</p>
+          <p class="text-gray-600 dark:text-gray-400">{{ education.school }},{{ education.end_date|date:"N Y" }}</p>
         </div>
         {% endfor %}
       </section>
@@ -30,7 +30,7 @@
         <div class="mt-2">
           {% for experience in cv.experiences.all %}
           <h3 class="text-lg font-semibold">{{ experience.title }} at {{ experience.company }}</h3>
-          <p class="text-gray-600 dark:text-gray-400">{{ experience.start_date }} - {{ experience.end_date }}</p>
+          <p class="text-gray-600 dark:text-gray-400">{{ experience.start_date|date:"N Y" }} - {{ experience.end_date|date:"N Y" }}</p>
           <ul class="list-disc list-inside mt-2 text-gray-600 dark:text-gray-400">
             {{ experience.description }}
           </ul>

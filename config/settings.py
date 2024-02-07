@@ -203,3 +203,10 @@ PASSWORD_HASHERS = [
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
 EMAIL_BACKEND = env("DJANGO_EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend")
+
+# DATA INPUTS
+# ------------------------------------------------------------------------------
+DATE_INPUT_FORMATS = [
+    "%d/%m/%Y",
+    "%d/%m/%y",
+]

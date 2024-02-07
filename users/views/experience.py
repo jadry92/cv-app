@@ -9,7 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from users.models import Experience
 
 # Forms
-# TODO: Create the experience form
+from users.forms import ExperienceModelForm
 
 
 class ExperienceListView(LoginRequiredMixin, ListView):
@@ -42,17 +42,8 @@ class ExperienceDetailView(LoginRequiredMixin, DetailView):
 class ExperienceCreateView(LoginRequiredMixin, CreateView):
     """This class return the experience create"""
 
-    model = Experience
+    form_class = ExperienceModelForm
     template_name = "users/experience/create.html"
-    fields = [
-        "title",
-        "company",
-        "location",
-        "description",
-        "current",
-        "start_date",
-        "end_date",
-    ]
     success_url = reverse_lazy("users:experience_list")
 
     def form_valid(self, form):
