@@ -8,6 +8,9 @@ from django.views.generic import UpdateView, DeleteView, CreateView, DetailView,
 # Models
 from users.models import Education
 
+# Form
+from users.forms import EducationModelForm
+
 
 class EducationListView(LoginRequiredMixin, ListView):
     """Education list view"""
@@ -23,14 +26,17 @@ class EducationCreateView(LoginRequiredMixin, CreateView):
     """Education create view"""
 
     template_name = "users/education/create.html"
-    model = Education
-    fields = ["degree", "description", "location", "start_date", "end_date", "school"]
     success_url = reverse_lazy("users:education_list")
+    form_class = EducationModelForm
 
     def form_valid(self, form):
         """Assign the user to the education"""
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+    def get_queryset(self):
+        """Return the education's owner"""
+        return Education.objects.filter(user=self.request.user)
 
 
 class EducationDetailView(LoginRequiredMixin, DetailView):
@@ -45,14 +51,18 @@ class EducationUpdateView(LoginRequiredMixin, UpdateView):
     """Education update view"""
 
     template_name = "users/education/edit.html"
-    model = Education
-    fields = ["degree", "description", "location", "start_date", "end_date", "school"]
+    form_class = EducationModelForm
     success_url = reverse_lazy("users:education_list")
+    pk_url_kwarg = "pk"
 
     def form_valid(self, form):
         """Assign the user to the education"""
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+    def get_queryset(self):
+        """Return the education's owner"""
+        return Education.objects.filter(user=self.request.user)
 
 
 class EducationDeleteView(LoginRequiredMixin, DeleteView):

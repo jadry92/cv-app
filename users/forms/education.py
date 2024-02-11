@@ -21,3 +21,14 @@ class EducationModelForm(forms.ModelForm):
     class Meta:
         model = Education
         fields = ("school", "degree", "location", "description", "start_date", "end_date")
+
+    def clean(self):
+        """Clean data"""
+        start_date = self.cleaned_data.get("start_date")
+        end_date = self.cleaned_data.get("end_date")
+
+        if start_date and end_date:
+            if start_date > end_date:
+                raise forms.ValidationError("Start date must be before end date")
+
+        return self.cleaned_data

@@ -1,8 +1,10 @@
 """This file contains the models for the users app."""
 
 # Django imports
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.forms import widgets
 
 
 class User(AbstractUser):
