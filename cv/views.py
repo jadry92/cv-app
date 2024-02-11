@@ -1,20 +1,14 @@
 """ CV Views """
 
-# Utils
-import functools
-import ssl
-
 # Django
 from django.urls import reverse_lazy
-from django.conf import settings
-from django.views.generic import FormView, ListView, DeleteView, DetailView, View
+from django.views.generic import FormView, ListView, DeleteView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 
 # django weasyprint
 from django_weasyprint.views import WeasyTemplateResponse, WeasyTemplateResponseMixin, WeasyTemplateView
-from django_weasyprint.utils import django_url_fetcher
 
 # Models
 from cv.models import CV, CVTemplate
@@ -261,7 +255,7 @@ class CVPreviewView(LoginRequiredMixin, DetailView):
 class DownloadCVView(LoginRequiredMixin, WeasyTemplateView):
     """This view is to generate de cv in pdf and download"""
 
-    pdf_stylesheets = ["static/css/bootstrap.min.css"]
+    pdf_stylesheets = ["static/css/bootstrap.min.css", "static/css/cv_dev.css"]
 
     def get_object(self, queryset=None):
         """Return the user's cv."""
