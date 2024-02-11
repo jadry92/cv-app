@@ -261,7 +261,9 @@ class CVPreviewView(LoginRequiredMixin, DetailView):
 class DownloadCVView(LoginRequiredMixin, WeasyTemplateView):
     """This view is to generate de cv in pdf and download"""
 
-    pdf_stylesheets = ["static/css/bootstrap.min.css"]
+    pdf_stylesheets = [
+        "static/css/bootstrap.min.css",
+    ]
 
     def get_object(self, queryset=None):
         """Return the user's cv."""

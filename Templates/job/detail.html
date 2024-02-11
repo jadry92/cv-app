@@ -1,28 +1,33 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 
-{% block title %} Cover Letter {% endblock title %}
+{% block title %} Job {% endblock title %}
 
 
-{%block content %}
+{% block content %}
 <div class="container">
   <div class="row">
     <h2 class="text-center">
-      {{ cover_letter.name }}
+      {{ job.title }}
     </h2>
   </div>
   <div class="row mt-3">
     <div class="col">
-      {{ cover_letter.text }}
+      {{ job.description }}
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col">
+      {{ job.requirements }}
     </div>
   </div>
 
   <div class="row mt-5">
     <div class="col-md-2 offset-md-2">
-      <a class="btn btn-warning" href="{% url 'cover_letter:cover_letter_edit' cover_letter.pk %}">edit</a>
+      <a class="btn btn-warning" href="{% url 'job:job_edit' job.pk %}">edit</a>
     </div>
     <div class="col-md-2">
-      <a class="btn btn-danger" href="{% url 'cover_letter:cover_letter_delete' cover_letter.pk %}">delete</a>
+      <a class="btn btn-danger" href="{% url 'job:job_delete' job.pk %}">delete</a>
     </div>
   </div>
 </div>
