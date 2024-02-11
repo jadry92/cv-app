@@ -1,15 +1,15 @@
-""" Experience Form """
+""" Educations Forms """
 
 # Django
 from django import forms
 from django.conf import settings
 
 # Models
-from users.models import Experience, Education
+from users.models import Education
 
 
-class ExperienceModelForm(forms.ModelForm):
-    """Experice Model Form"""
+class EducationModelForm(forms.ModelForm):
+    """Education Model Form"""
 
     start_date = forms.DateField(
         widget=forms.DateInput(attrs={"type": "date"}), input_formats=settings.DATE_INPUT_FORMATS
@@ -19,5 +19,5 @@ class ExperienceModelForm(forms.ModelForm):
     )
 
     class Meta:
-        model = Experience
-        fields = ("company", "title", "description", "start_date", "end_date", "current", "location")
+        model = Education
+        fields = ("school", "degree", "location", "description", "start_date", "end_date")
