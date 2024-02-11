@@ -1,57 +1,59 @@
-<main class="">
+<main class="main">
   <section id="user" class="">
-    <h1>{{ cv.user.first_name|title }} {{ cv.user.last_name|title }}</h1>
-    <small class="">Software Developer</small>
-    <small>{{ cv.user.address }}</small>
-    <small>{{ cv.user.phone }}</small>
+    <h1><strong>{{ cv.user.first_name|title }} {{ cv.user.last_name|title }}</strong></h1>
+    <p><small class="fw-lighter">Software Developer | {{ cv.user.address }} | {{ cv.user.phone }}</small></p>
   </section>
   <section id="about" class="">
-    <h2 class="">About</h2>
+    <h2 class=""><strong>About</strong></h2>
     <p class="">{{ cv.about_me.about }}</p>
   </section>
   <section id="experience" class="">
-    <div class="">
-      <h2 class="">Experience</h2>
-      <div class="">
-        {% for experience in cv.experiences.all %}
-        <h3 class="">{{ experience.title }} at {{ experience.company }}</h3>
+    <h1 class=""><strong>Experience</strong></h1>
+    <ul class="">
+      {% for experience in cv.experiences.all %}
+      <li class="">
+        <h3 class=""><strong>{{ experience.title }} at {{ experience.company }}</strong></h3>
         {% if experience.current %}
-        <p class="">{{ experience.start_date|date:"N Y" }} - Current</p>
+        <p class=""><small>{{ experience.start_date|date:"N Y" }} - Current</small></p>
         {% else %}
-        <p class="">{{ experience.start_date|date:"N Y" }} - {{ experience.end_date|date:"N Y" }}</p>
+        <p class=""><small>{{ experience.start_date|date:"N Y" }} - {{ experience.end_date|date:"N Y" }}</small></p>
         {% endif %}
-        <ul class="">
+        <p class="">
           {{ experience.description }}
-        </ul>
-        {% endfor %}
-      </div>
+        </p>
+      </li>
+      {% endfor %}
+    </ul>
   </section>
   <section id="educaiton" class="">
-    <h2 class="">Education</h2>
-    <div class="">
+    <h1 class=""><strong>Education</strong></h1>
+    <ul class="">
       {% for education in cv.educations.all %}
-      <h3 class="">{{ education.degree }} in {{ education.field_of_study }} at {{ education.school }}</h3>
-      <p class="">{{ education.start_date|date:"N Y" }} - {{ education.end_date|date:"N Y" }}</p>
+      <li class="">
+        <h3 class=""><strong>{{ education.degree }} in {{ education.field_of_study }} at {{ education.school }}</strong>
+        </h3>
+        <p class=""><small>{{ education.start_date|date:"N Y" }} - {{ education.end_date|date:"N Y" }}</small></p>
+      </li>
       {% endfor %}
-    </div>
-  </section>
-  <section id="skills" class="">
-    <h2 class="">Skills</h2>
-    <div class="">
-      <ul class="">
-        {% for skill in cv.skills.all %}
-        <li class="">{{ skill.name }}</li>
-        {% endfor %}
-      </ul>
-    </div>
+    </ul>
   </section>
   <section id="projects" class="">
-    <h2 class="">Projects</h2>
-    <div class="">
+    <h1 class=""><strong>Projects</strong></h1>
+    <ul class="">
       {% for project in cv.projects.all %}
-      <h3 class="">{{ project.title }}</h3>
-      <p class="">{{ project.description }}</p>
+      <li class="">
+        <h3 class=""><strong>{{ project.title }}</strong></h3>
+        <p class="">{{ project.description }}</p>
+      </li>
       {% endfor %}
-    </div>
+    </ul>
+  </section>
+  <section id="skills" class="">
+    <h1 class=""><strong>Skills</strong></h1>
+    <ul class="">
+      {% for skill in cv.skills.all %}
+      <li class=""><small>{{ skill.name }}</small></li>
+      {% endfor %}
+    </ul>
   </section>
 </main>
