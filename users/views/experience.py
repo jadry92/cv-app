@@ -15,14 +15,12 @@ from users.forms import ExperienceModelForm
 class ExperienceListView(LoginRequiredMixin, ListView):
     """This class return the experience list"""
 
-    model = Experience
     template_name = "users/experience/list.html"
     context_object_name = "experiences"
 
     def get_queryset(self):
         """Return the user's experiences"""
-        queryset = super().get_queryset()
-        return queryset.filter(user=self.request.user)
+        return Experience.objects.filter(user=self.request.user)
 
 
 class ExperienceDetailView(LoginRequiredMixin, DetailView):
@@ -51,28 +49,22 @@ class ExperienceCreateView(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+    def get_queryset(self):
+        """Return the user's experiences"""
+        return Experience.objects.filter(user=self.request.user)
+
 
 class ExperienceUpdateView(LoginRequiredMixin, UpdateView):
     """This class return the experience update"""
 
-    model = Experience
     template_name = "users/experience/edit.html"
-    fields = [
-        "title",
-        "company",
-        "location",
-        "description",
-        "current",
-        "start_date",
-        "end_date",
-    ]
+    form_class = ExperienceModelForm
     pk_url_kwarg = "pk"
     success_url = reverse_lazy("users:experience_list")
 
     def get_queryset(self):
         """Return the user's experiences"""
-        queryset = super().get_queryset()
-        return queryset.filter(user=self.request.user)
+        return Experience.objects.filter(user=self.request.user)
 
     def form_valid(self, form):
         """Assign the user to the experience"""
