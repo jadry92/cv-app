@@ -1,10 +1,8 @@
 """This file contains the models for the users app."""
 
 # Django imports
-from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.forms import widgets
 
 
 class User(AbstractUser):
@@ -32,7 +30,7 @@ class ProfilePicture(models.Model):
 
 class AboutMe(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="about_me")
-    about = models.TextField(max_length=1000, blank=True)
+    about = models.TextField()
     title = models.CharField(max_length=50)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -56,7 +54,7 @@ class SocialNetwork(models.Model):
 
 class Skill(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="skill")
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=150)
     percentage = models.IntegerField()
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -69,7 +67,7 @@ class Skill(models.Model):
 class Education(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="education")
     description = models.TextField(max_length=500, blank=True)
-    degree = models.CharField(max_length=50)
+    degree = models.CharField(max_length=150)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     school = models.CharField(max_length=50)
@@ -84,7 +82,7 @@ class Education(models.Model):
 
 class Experience(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="experience")
-    description = models.TextField(max_length=500, blank=True)
+    description = models.TextField()
     title = models.CharField(max_length=50)
     company = models.CharField(max_length=50)
     start_date = models.DateField(null=True, blank=True)
@@ -101,7 +99,7 @@ class Experience(models.Model):
 
 class Project(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="project")
-    description = models.TextField(max_length=500, blank=True)
+    description = models.TextField()
     title = models.CharField(max_length=50)
     url = models.URLField(max_length=200, blank=True)
 

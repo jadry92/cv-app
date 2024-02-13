@@ -38,7 +38,8 @@ class Job(models.Model):
 
 
 class JobDetails(models.Model):
-    """This is the model of the job details.
+    """
+    This is the model of the job details.
     This model will be populated by an AI and scraping alogrithm
     """
 

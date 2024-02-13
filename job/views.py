@@ -8,6 +8,9 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 # Models
 from job.models import Job
 
+# Forms
+from job.forms import JobModelForm
+
 
 class JobListView(LoginRequiredMixin, ListView):
     """This is the list view of the job application."""
@@ -29,10 +32,13 @@ class JobDetailView(LoginRequiredMixin, DetailView):
 class JobCreateView(LoginRequiredMixin, CreateView):
     """This is the create view of the job application."""
 
-    model = Job
     template_name = "job/create.html"
-    fields = "__all__"
     success_url = reverse_lazy("job:list")
+    form_class = JobModelForm
+
+    def get_queryset(self):
+        """This is the query set of the job application."""
+        return Job.objects.filter(user=self.request.user)
 
     def form_valid(self, form):
         """This is the form validation of the job application."""
@@ -44,10 +50,14 @@ class JobCreateView(LoginRequiredMixin, CreateView):
 class JobUpdateView(LoginRequiredMixin, UpdateView):
     """This is the update view of the job application."""
 
-    model = Job
     template_name = "job/update.html"
-    fields = "__all__"
     success_url = reverse_lazy("job:list")
+    form_class = JobModelForm
+    pk_url_kwarg = "pk"
+
+    def get_queryset(self):
+        """This is the query set of the job application."""
+        return Job.objects.filter(user=self.request.user)
 
     def form_valid(self, form):
         """This is the form validation of the job application."""
