@@ -64,6 +64,13 @@
   font-size: 1.7em;
 }
 
+.projects p {
+  margin: 0px;
+}
+.projects small {
+  margin-bottom: 10px;
+}
+
 .skills h1 {
   font-size: 2em;
 }

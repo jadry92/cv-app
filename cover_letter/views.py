@@ -83,7 +83,6 @@ class CoverLetterSuggestionView(LoginRequiredMixin, TemplateView):
                     "content": f"can you help me impruve my cover letter? I have written the following: {cover_letter.text}",
                 },
             ],
-            max_tokens=20,
         )
-        context["suggestion"] = response["choices"][0]["message"]["content"]
+        context["suggestion"] = response.choices[0].message.content
         return context

@@ -79,6 +79,9 @@ class Education(models.Model):
     def __str__(self):
         return self.degree
 
+    class Meta:
+        ordering = ["-start_date"]
+
 
 class Experience(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="experience")
@@ -95,6 +98,9 @@ class Experience(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        ordering = ["-start_date"]
 
 
 class Project(models.Model):

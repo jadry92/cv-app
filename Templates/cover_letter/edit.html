@@ -23,8 +23,8 @@
   <div class="row mt-3">
     <div class="col-md-8 offset-md-2" hx-get="{% url 'cover_letter:cover_letter_suggestion' object.id %}"  hx-target="#suggestion">
       <button class="btn btn-warning" type="submit"><i class="bi bi-lightning-charge-fill"></i>Add Suggestion</button>
-      <div id="suggestion"></div>
     </div>
+    <div id="suggestion"></div>
   </div>
 </div>
 {% endblock content %}
