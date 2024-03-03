@@ -21,17 +21,17 @@
         <thead>
           <tr>
             <th scope="col">Title</th>
-            <th scope="col">Updated</th>
-            <th scope="col">Created</th>
+            <th scope="col">Status</th>
+            <th scope="col">Deadline</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
           {% for job in jobs %}
           <tr>
-            <th scope="row"><a href="{% url 'job:job_detail' job.pk %}">{{ job.title }}</a></th>
-            <td>{{ job.updated_at }}</td>
-            <td>{{ job.created_at }}</td>
+            <th scope="row"><a href="{% url 'job:job_detail' job.pk %}">{{ job.name }}</a></th>
+            <td>{{ job.get_status_display }}</td>
+            <td>{{ job.deadline }}</td>
             <td>
               <a href="{% url 'job:job_edit' job.pk %}">edit</a>
               /

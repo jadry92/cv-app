@@ -88,7 +88,7 @@ class CVCreateView(LoginRequiredMixin, FormView):
 
     def get_form_kwargs(self):
         """Return the keyword arguments for instantiating the form."""
-        kwargs = super(CVCreateView, self).get_form_kwargs()
+        kwargs = super().get_form_kwargs()
         kwargs["user"] = self.request.user
         return kwargs
 

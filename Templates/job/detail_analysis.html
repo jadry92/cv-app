@@ -1,0 +1,32 @@
+{% if json %}
+{% for key, row in json.items %}
+<div class="row">
+  <p>
+    <strong>{{ key }}</strong>
+  </p>
+</div>
+<div class="row">
+  <div class="col-8">
+    {% if row.items %}
+    {% with json=row %}
+    {% include "job/detail_analysis.html" %}
+    {% endwith %}
+    {% else %}
+    {% if row|first|length > 1 %}
+    <ul>
+      {% for val in row %}
+      <li>
+        {{ val }}
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>
+      {{ row }}
+    </p>
+    {% endif %}
+    {% endif %}
+  </div>
+</div>
+{% endfor %}
+{% endif %}

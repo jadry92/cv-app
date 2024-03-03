@@ -11,13 +11,13 @@ from job.models import Job, JobDetails
 class JobModelForm(forms.ModelForm):
 
     deadline = forms.DateField(
-        widget=forms.DateInput(attrs={"type": "date"}), input_formats=settings.DATE_INPUT_FORMATS
+        widget=forms.DateInput(attrs={"type": "date"}), input_formats=settings.DATE_INPUT_FORMATS, required=False
     )
     date_applied = forms.DateField(
-        widget=forms.DateInput(attrs={"type": "date"}), input_formats=settings.DATE_INPUT_FORMATS
+        widget=forms.DateInput(attrs={"type": "date"}), input_formats=settings.DATE_INPUT_FORMATS, required=False
     )
 
     class Meta:
 
         model = Job
-        fields = ["name", "url", "status", "cv", "cover_letter", "date_applied", "deadline"]
+        fields = ["name", "raw_description", "url", "status", "cv", "cover_letter", "date_applied", "deadline"]

@@ -9,16 +9,16 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("cover_letter", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ("job", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name="coverletter",
+            model_name="job",
             name="user",
             field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE, related_name="cover_letter", to=settings.AUTH_USER_MODEL
+                on_delete=django.db.models.deletion.CASCADE, related_name="jobs", to=settings.AUTH_USER_MODEL
             ),
         ),
     ]

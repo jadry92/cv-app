@@ -2,10 +2,13 @@
 
 # Django
 from django.db import models
+from django.contrib.auth import get_user_model
 
 # Models
 from cover_letter.models import CoverLetter
 from cv.models import CV
+
+User = get_user_model()
 
 JOB_STATUS = [
     (0, "No Applied"),
@@ -21,7 +24,8 @@ JOB_STATUS = [
 class Job(models.Model):
     """This is the model of the job."""
 
-    name = models.CharField(max_length=50)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="jobs")
+    name = models.CharField(max_length=500)
     url = models.URLField()
     status = models.IntegerField(choices=JOB_STATUS, default=0)
     cover_letter = models.ForeignKey(CoverLetter, on_delete=models.SET_NULL, related_name="job", null=True, blank=True)
@@ -29,12 +33,18 @@ class Job(models.Model):
     date_applied = models.DateField(null=True, blank=True)
     deadline = models.DateField(null=True, blank=True)
 
+    raw_description = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         """Return name of the job."""
         return self.name
+
+    class Meta:
+        """Meta options."""
+
+        ordering = ["-deadline"]
 
 
 class JobDetails(models.Model):
@@ -44,10 +54,8 @@ class JobDetails(models.Model):
     """
 
     job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name="job_details")
-    description = models.TextField()
-    relevant_info = models.TextField()
-    position = models.CharField(max_length=50)
-    company = models.CharField(max_length=50)
+    json_detail = models.TextField()
+    usage = models.CharField(max_length=500)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
