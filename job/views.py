@@ -3,8 +3,8 @@
 # Django
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from config.celery import debug_task
+from django.views.generic import ListView, DetailView, CreateView, TemplateView, UpdateView, DeleteView
+from django.shortcuts import redirect
 
 # Models
 from job.models import Job, JobDetails
@@ -101,3 +101,25 @@ class JobDeleteView(LoginRequiredMixin, DeleteView):
     model = Job
     template_name = "job/delete.html"
     success_url = reverse_lazy("job:list")
+
+
+class JobAnalysisDetail(LoginRequiredMixin, TemplateView):
+
+    template_name = "job/analysis.html"
+
+    def get_context_data(self, **kwargs):
+        """This is the context data of the job application."""
+        context = super().get_context_data(**kwargs)
+        pk = self.request.GET.get("job", None)
+        print(pk)
+        if pk == None:
+            redirect("job:job_list")
+        job = Job.objects.get(pk=pk, user=self.request.user)
+        context["job"] = job
+        list_detail = JobDetails.objects.filter(job=job)
+        if list_detail:
+            for i in range(len(list_detail)):
+                list_detail[i].json_detail = json.loads(list_detail[i].json_detail)
+
+        context["job_details"] = list_detail
+        return context

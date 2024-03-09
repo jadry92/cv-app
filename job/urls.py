@@ -4,7 +4,7 @@
 from django.urls import path
 
 # Views
-from job.views import JobListView, JobDetailView, JobCreateView, JobUpdateView, JobDeleteView
+from job.views import JobListView, JobDetailView, JobCreateView, JobUpdateView, JobDeleteView, JobAnalysisDetail
 
 app_name = "job"
 
@@ -14,4 +14,5 @@ urlpatterns = [
     path("create/", JobCreateView.as_view(), name="job_create"),
     path("<int:pk>/edit/", JobUpdateView.as_view(), name="job_edit"),
     path("<int:pk>/delete/", JobDeleteView.as_view(), name="job_delete"),
+    path("analysis/", JobAnalysisDetail.as_view(), name="job_analysis"),
 ]

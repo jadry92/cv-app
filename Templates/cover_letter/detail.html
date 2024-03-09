@@ -4,8 +4,14 @@
 {% block title %} Cover Letter {% endblock title %}
 
 
-{%block content %}
+{% block content %}
 <div class="container">
+  <div class="row mb-5">
+    <div class="d-flex flex-row-reverse">
+      <a class="btn btn-danger mx-3" href="{% url 'cover_letter:cover_letter_delete' cover_letter.pk %}">delete</a>
+      <a class="btn btn-warning mx-3" href="{% url 'cover_letter:cover_letter_edit' cover_letter.pk %}">edit</a>
+    </div>
+  </div>
   <div class="row">
     <h2 class="text-center">
       {{ cover_letter.name }}
@@ -13,17 +19,25 @@
   </div>
   <div class="row mt-3">
     <div class="col">
-      {{ cover_letter.text }}
-    </div>
-  </div>
-
-  <div class="row mt-5">
-    <div class="col-md-2 offset-md-2">
-      <a class="btn btn-warning" href="{% url 'cover_letter:cover_letter_edit' cover_letter.pk %}">edit</a>
-    </div>
-    <div class="col-md-2">
-      <a class="btn btn-danger" href="{% url 'cover_letter:cover_letter_delete' cover_letter.pk %}">delete</a>
+      {{ cover_letter.text|safe }}
     </div>
   </div>
 </div>
 {% endblock content %}
+
+
+{% block sidebar %}
+{% if jobs %}
+<div class="col-5">
+  <select class="form-select" name="job" aria-label="Select Job" hx-trigger="change" hx-get="{% url 'job:job_analysis' %}"  hx-target="#job-analysis">
+    <option selected>Select the Job you want see the details</option>
+    {% for job in jobs %}
+    <option value="{{ job.pk }}">{{ job.name }}</option>
+    {% endfor %}
+  </select>
+  <div id="job-analysis" class="mt-3">
+  </div>
+</div>
+{% endif %}
+{% endblock sidebar %}
+

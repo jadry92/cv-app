@@ -50,12 +50,12 @@
         {% endif %}
       </div>
       <div class="row">
+        {% block sidebar %}
         <div class="col-2">
-          {% block sidebar %}
           {% include "sidebar.html" %}
-          {% endblock sidebar %}
         </div>
-        <div class="col-10">
+        {% endblock sidebar %}
+        <div class="col">
           {% block content %}
             <p>Use this document as a way to quick start any new project.</p>
           {% endblock content %}

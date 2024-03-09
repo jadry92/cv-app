@@ -9,6 +9,7 @@ from django.conf import settings
 
 # Models
 from cover_letter.models import CoverLetter
+from job.models import Job, JobDetails
 
 # OpenAI
 from openai import OpenAI
@@ -36,6 +37,14 @@ class CoverLetterCreateView(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        """Get the context data."""
+        context = super().get_context_data(**kwargs)
+
+        # Adding job information to the context
+        context["jobs"] = Job.objects.filter(user=self.request.user, status=0).only("pk", "name")
+        return context
+
 
 class CoverLetterDetailView(LoginRequiredMixin, DetailView):
     """This class defines the detail view for the cover letter model."""
@@ -43,6 +52,14 @@ class CoverLetterDetailView(LoginRequiredMixin, DetailView):
     model = CoverLetter
     template_name = "cover_letter/detail.html"
     context_object_name = "cover_letter"
+
+    def get_context_data(self, **kwargs):
+        """Get the context data."""
+        context = super().get_context_data(**kwargs)
+
+        # Adding job information to the context
+        context["jobs"] = Job.objects.filter(user=self.request.user, status=0).only("pk", "name")
+        return context
 
 
 class CoverLetterUpdateView(LoginRequiredMixin, UpdateView):
@@ -52,6 +69,14 @@ class CoverLetterUpdateView(LoginRequiredMixin, UpdateView):
     fields = ["name", "text"]
     template_name = "cover_letter/edit.html"
     success_url = reverse_lazy("cover_letter:cover_letter_list")
+
+    def get_context_data(self, **kwargs):
+        """Get the context data."""
+        context = super().get_context_data(**kwargs)
+
+        # Adding job information to the context
+        context["jobs"] = Job.objects.filter(user=self.request.user, status=0).only("pk", "name")
+        return context
 
 
 class CoverLetterDeleteView(LoginRequiredMixin, DeleteView):

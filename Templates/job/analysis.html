@@ -1,0 +1,7 @@
+{% if job %}
+{% for detail in job_details %}
+{% with json=detail.json_detail %}
+{% include "job/detail_analysis.html" %}
+{% endwith %}
+{% endfor %}
+{% endif %}
