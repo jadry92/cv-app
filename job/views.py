@@ -4,6 +4,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from config.celery import debug_task
 
 # Models
 from job.models import Job, JobDetails
@@ -12,7 +13,7 @@ from job.models import Job, JobDetails
 from job.forms import JobModelForm
 
 # Utils
-from job.utils import create_job_details
+from job.tasks import create_job_details
 import json
 
 
@@ -68,7 +69,7 @@ class JobCreateView(LoginRequiredMixin, CreateView):
 
         # Save the form
         job = form.save()
-        create_job_details(job.id, self.request)
+        create_job_details.delay(job.id, self.request.user.pk)
         return super().form_valid(form)
 
 
@@ -89,7 +90,8 @@ class JobUpdateView(LoginRequiredMixin, UpdateView):
 
         form.instance.user = self.request.user
         job = form.save()
-        create_job_details(job.id, self.request)
+
+        create_job_details.delay(job.id, self.request.user.pk)
         return super(JobUpdateView, self).form_valid(form)
 
 

@@ -58,25 +58,3 @@ def request_analysis(raw_description):
     analysis = json.loads(raw_analysis)
 
     return (analysis, response.usage)
-
-
-def create_job_details(job_id, request):
-    """This function creates a new job details object"""
-
-    # Get Job object
-    try:
-        job = Job.objects.get(id=job_id)
-        if job.raw_description == "":
-            messages.warning(request, "Raw description is empty")
-        analysis, usage = request_analysis(job.raw_description)
-
-        usage_str = ""
-        if usage:
-            usage_str = f"{usage.prompt_tokens} input tokens, {usage.completion_tokens} anwser tokens| Total={usage.total_tokens}"
-
-        JobDetails.objects.create(job=job, json_detail=json.dumps(analysis), usage=usage_str)
-
-        messages.success(request, "analisys of the job was created")
-
-    except Job.DoesNotExist:
-        raise ValueError(f"Job with id {job_id} does not exist")

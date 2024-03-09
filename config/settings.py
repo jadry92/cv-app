@@ -68,6 +68,7 @@ THIRD_PARTY_APPS = [
     "crispy_bootstrap5",
     "django_htmx",
     "django_weasyprint",
+    "django_celery_results",
 ]
 
 LOCAL_APPS = ["users", "cv", "cover_letter", "job"]
@@ -225,3 +226,23 @@ DATE_INPUT_FORMATS = [
     "%d %B %Y",  # '25 October 2006'
     "%d %B, %Y",
 ]
+
+# CELERY
+# ------------------------------------------------------------------------------
+# Celery Configuration Options
+CELERY_TIMEZONE = "Australia/Tasmania"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_RESULT_BACKEND = "django-db"
+CELERY_CACHE_BACKEND = "django-cache"
+
+# celery setting.
+CELERY_CACHE_BACKEND = "default"
+
+# django setting.
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "my_cache_table",
+    }
+}
