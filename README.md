@@ -19,3 +19,8 @@ python manage.py runserver
 
 ```
 
+Celery configuration
+```bash
+docker run -d -p 6379:6379 redis
+celery -A config worker -l INFO
+```

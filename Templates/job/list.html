@@ -36,6 +36,8 @@
               <a href="{% url 'job:job_edit' job.pk %}">edit</a>
               /
               <a href="{% url 'job:job_delete' job.pk %}">delete</a>
+              /
+              <a href="{% url 'job:job_applied' job.pk %}">applied</a>
             </td>
           </tr>
           {% endfor %}

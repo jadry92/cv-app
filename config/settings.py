@@ -242,7 +242,9 @@ CELERY_CACHE_BACKEND = "default"
 # django setting.
 CACHES = {
     "default": {
-        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
-        "LOCATION": "my_cache_table",
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": [
+            "redis://127.0.0.1:6379",
+        ],
     }
 }
