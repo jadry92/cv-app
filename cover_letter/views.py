@@ -9,7 +9,7 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView, D
 from django.conf import settings
 
 # Models
-from cover_letter.models import CoverLetter
+from cover_letter.models import CoverLetter, CoverLetterGPT3
 from job.models import Job, JobDetails
 from cv.models import CV
 
@@ -76,6 +76,7 @@ class CoverLetterUpdateView(LoginRequiredMixin, UpdateView):
     fields = ["name", "text"]
     template_name = "cover_letter/edit.html"
     success_url = reverse_lazy("cover_letter:cover_letter_list")
+    context_object_name = "c_v"
 
     def get_context_data(self, **kwargs):
         """Get the context data."""
@@ -94,6 +95,14 @@ class CoverLetterUpdateView(LoginRequiredMixin, UpdateView):
             context["job_details"] = list_detail
         else:
             context["jobs"] = Job.objects.filter(user=self.request.user, status=0).only("pk", "name")
+
+        cover_letter_gpt = CoverLetterGPT3.objects.filter(cover_letter=context["c_v"])
+        if cover_letter_gpt:
+            context["c_v_gpt"] = cover_letter_gpt
+            c_v_id = self.request.GET.get("c_v_gpt_id")
+            if c_v_id:
+                context["suggestion"] = cover_letter_gpt.filter(pk=c_v_id).first()
+
         return context
 
 
@@ -106,6 +115,7 @@ class CoverLetterCreateAutomaticView(LoginRequiredMixin, RedirectView):
     def post(self, request, *args, **kwargs):
         """Create Cover Letter base on a suggestion."""
         job_id = request.POST.get("job")
+        print(job_id)
         job = get_object_or_404(Job, pk=job_id, user=request.user)
         job_details = JobDetails.objects.filter(job=job).first()
         cv_id = request.POST.get("cv")
@@ -115,13 +125,13 @@ class CoverLetterCreateAutomaticView(LoginRequiredMixin, RedirectView):
 
         cover_letter = CoverLetter.objects.create(
             user=request.user,
-            name=f"Cover Letter for {job.name}",
+            name=f"{job.name}",
             text="",
         )
         cover_letter_gpt_id = cover_letter_suggestion(job_details.pk, cv.pk, cover_letter.pk)
 
         base_url = reverse("cover_letter:cover_letter_edit", kwargs={"pk": cover_letter.pk})
-        query_string = urlencode({"job": job.pk, "cv": cv.pk, "gpt_id": cover_letter_gpt_id})
+        query_string = urlencode({"job": job.pk, "cv": cv.pk, "c_v_gpt_id": cover_letter_gpt_id})
 
         url = f"{base_url}?{query_string}"
         return HttpResponsePermanentRedirect(url)
@@ -144,18 +154,8 @@ class CoverLetterSuggestionView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         """Get the context data."""
         context = super().get_context_data(**kwargs)
-        cover_letter = CoverLetter.objects.get(pk=self.kwargs["pk"], user=self.request.user)
-        context["cover_letter"] = cover_letter
-        client = OpenAI(api_key=settings.CHAT_GPT_API_KEY)
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "You are a highly qualified candidate for the position."},
-                {
-                    "role": "user",
-                    "content": f"can you help me impruve my cover letter? I have written the following: {cover_letter.text}",
-                },
-            ],
-        )
-        context["suggestion"] = response.choices[0].message.content
+        cover_letter_gpt_id = self.request.GET.get("c_v_gpt_id")
+        if not cover_letter_gpt_id:
+            return context
+        context["suggestion"] = get_object_or_404(CoverLetterGPT3, pk=cover_letter_gpt_id)
         return context
