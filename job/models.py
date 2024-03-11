@@ -8,6 +8,9 @@ from django.contrib.auth import get_user_model
 from cover_letter.models import CoverLetter
 from cv.models import CV
 
+# Utils
+import json
+
 User = get_user_model()
 
 JOB_STATUS = [
@@ -59,3 +62,21 @@ class JobDetails(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def get_json_detail(self):
+        """Return the json detail."""
+        json_analysis = json.loads(self.json_detail)
+        return self._json_to_str(json_analysis)
+
+    def _json_to_str(self, json):
+        """Return a string representation of the json."""
+        resp_str = ""
+        for key, value in json.items():
+            if isinstance(value, list):
+                resp_str += f"{key}: {', '.join(value)}\n"
+            elif isinstance(value, dict):
+                resp_str += self._json_to_str(value)
+            else:
+                resp_str += f"{key}: {value}\n"
+
+        return resp_str

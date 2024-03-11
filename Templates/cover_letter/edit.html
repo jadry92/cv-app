@@ -43,5 +43,16 @@
   </div>
 </div>
 {% endif %}
+{% if job %}
+<div class="col-5">
+  <div id="job-analysis" class="mt-3">
+    {% for detail in job_details %}
+    {% with json=detail.json_detail %}
+    {% include "job/detail_analysis.html" %}
+    {% endwith %}
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
 {% endblock sidebar %}
 

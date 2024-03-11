@@ -26,6 +26,19 @@ class CV(models.Model):
         """Return name and description."""
         return f"{self.name}"
 
+    def get_cv_str(self):
+        """Return a string representation of the cv."""
+
+        experiences = "\n".join([f"-{exp.description}" for exp in self.experiences.all()])
+        educations = "\n".join([f"-{edu.degree}" for edu in self.educations.all()])
+        skills = "\n".join([f"-{skill.name}" for skill in self.skills.all()])
+        return f"""
+        Name: \n {self.user.first_name} {self.user.last_name}
+        Experience: \n {experiences}
+        Education: \n {educations}
+        Skills: \n {skills}
+        """
+
 
 class CVTemplate(models.Model):
     cv = models.ManyToManyField(CV, related_name="template")

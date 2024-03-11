@@ -5,10 +5,6 @@ from openai import OpenAI
 
 # Django
 from django.conf import settings
-from django.contrib import messages
-
-# Models
-from job.models import JobDetails, Job
 
 # Utils
 import json

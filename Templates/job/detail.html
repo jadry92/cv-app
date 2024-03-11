@@ -6,6 +6,22 @@
 
 {% block content %}
 <div class="container">
+  {% if cvs and job.status == 0 %}
+  <div class="row">
+    <div class="col-4 offset-8">
+      <form method="post" class="input-group" action="{% url 'cover_letter:cover_letter_create_automatic' %}">
+        {% csrf_token %}
+        <input type="hidden" name="job_id" value="{{ job.pk }}">
+        <select name="cv" class="form-control">
+          {% for cv in cvs %}
+          <option value="{{ cv.pk }}">{{ cv.name }}</option>
+          {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-primary">Create Cover Letter</button>
+      </form>
+    </div>
+  </div>
+  {% endif %}
   <div class="row">
     <h2 class="text-center">
       <a href="{{ job.url }}" blank=_>{{ job.name }}</a>
@@ -24,12 +40,10 @@
     {% endfor %}
     </div>
   </div>
-  <div class="row mt-5">
-    <div class="col-md-2 offset-md-2">
-      <a class="btn btn-warning" href="{% url 'job:job_edit' job.pk %}">edit</a>
-    </div>
-    <div class="col-md-2">
-      <a class="btn btn-danger" href="{% url 'job:job_delete' job.pk %}">delete</a>
+  <div class="row">
+    <div class="d-flex flex-row-reverse">
+      <a class="btn btn-warning mx-3" href="{% url 'job:job_edit' job.pk %}">edit</a>
+      <a class="btn btn-danger mx-3" href="{% url 'job:job_delete' job.pk %}">delete</a>
     </div>
   </div>
 </div>

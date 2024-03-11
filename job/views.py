@@ -8,6 +8,7 @@ from django.shortcuts import redirect
 
 # Models
 from job.models import Job, JobDetails
+from cv.models import CV
 
 # Forms
 from job.forms import JobModelForm, JobAppliedForm
@@ -48,6 +49,7 @@ class JobDetailView(LoginRequiredMixin, DetailView):
                 list_detail[i].json_detail = json.loads(list_detail[i].json_detail)
 
         context["job_details"] = list_detail
+        context["cvs"] = CV.objects.filter(user=self.request.user)
         return context
 
 
