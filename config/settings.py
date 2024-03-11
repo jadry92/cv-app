@@ -71,7 +71,7 @@ THIRD_PARTY_APPS = [
     "django_celery_results",
 ]
 
-LOCAL_APPS = ["users", "cv", "cover_letter", "job"]
+LOCAL_APPS = ["users", "cv", "cover_letter", "job", "home"]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = LOCAL_APPS + DJANGO_APPS + THIRD_PARTY_APPS

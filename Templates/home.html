@@ -1,10 +1,43 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="">
-    <div class="">
-      <p> Some content </p>
-      {% lorem 1 b random %}
+  {% if jobs %}
+    <div class="row">
+      <div class="col">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Title</th>
+              <th scope="col">Status</th>
+              <th scope="col">Deadline</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for job in jobs %}
+            <tr>
+              <th scope="row"><a href="{% url 'job:job_detail' job.pk %}">{{ job.name }}</a></th>
+              <td>{{ job.get_status_display }}</td>
+              <td>{{ job.deadline }}</td>
+              <td>
+                <a href="{% url 'job:job_edit' job.pk %}">edit</a>
+                /
+                <a href="{% url 'job:job_delete' job.pk %}">delete</a>
+                /
+                <a href="{% url 'job:job_applied' job.pk %}">applied</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
-{% endblock content %}
+
+    {% else %}
+    <div class="row">
+      <div class="col">
+        No jobs
+      </div>
+    </div>
+    {% endif %}
+  {% endblock content %}
