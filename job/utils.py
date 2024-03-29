@@ -33,7 +33,7 @@ def request_analysis(raw_description):
     """
 
     # Set the API key
-    client = OpenAI(api_key=settings.CHAT_GPT_API_KEY)
+    client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
     # Set the prompt
     prompt = f"Analyze the following job description and provide key points, role and a summary: \n\n{raw_description}"

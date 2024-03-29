@@ -12,7 +12,7 @@ def request_suggestion_for_cover_letter(job_summary, cv_infor):
     This function asks for asugestion when writing a cover letter base on a job description
 
     """
-    client = OpenAI(api_key=settings.CHAT_GPT_API_KEY)
+    client = OpenAI(api_key=settings.OPENAI_API_KEY)
     prompt = f"Write a cover letter for a this job: \n\n {job_summary} \n\n My cv is: {cv_infor}"
 
     response = client.chat.completions.create(
