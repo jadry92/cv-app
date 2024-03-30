@@ -2,12 +2,13 @@
 
 # Django
 from django.views.generic import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Models
 from job.models import Job
 
 
-class HomeView(TemplateView):
+class HomeView(LoginRequiredMixin, TemplateView):
     """Home view."""
 
     template_name = "home.html"

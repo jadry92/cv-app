@@ -20,9 +20,9 @@ env.read_env(str(BASE_DIR / ".env"))
 
 SECRET_KEY = env("DJANGO_SECRET_KEY", default="django-insecure-hnu6v9ou5r@xpv)ng&7y52(r3sm_x)3q*-)n$&0oo*os+p)pcf")
 
-CHAT_GPT_API_KEY = env("CHAT_GPT_API_KEY", default="")
-if not CHAT_GPT_API_KEY:
-    raise ValueError("CHAT_GPT_API_KEY is not set")
+OPENAI_API_KEY = env("OPENAI_API_KEY", default="")
+if not OPENAI_API_KEY:
+    raise ValueError("OPENAI_API_KEY is not set")
 
 
 DEBUG = env.bool("DJANGO_DEBUG", False)
@@ -71,7 +71,7 @@ THIRD_PARTY_APPS = [
     "django_celery_results",
 ]
 
-LOCAL_APPS = ["users", "cv", "cover_letter", "job", "home"]
+LOCAL_APPS = ["users", "cv", "cover_letter", "job", "home", "semantic_kernel"]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = LOCAL_APPS + DJANGO_APPS + THIRD_PARTY_APPS

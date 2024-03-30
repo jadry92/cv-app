@@ -22,6 +22,6 @@ urlpatterns = [
     path("create-automatic/", CoverLetterCreateAutomaticView.as_view(), name="cover_letter_create_automatic"),
     path("<int:pk>/", CoverLetterDetailView.as_view(), name="cover_letter_detail"),
     path("<int:pk>/edit/", CoverLetterUpdateView.as_view(), name="cover_letter_edit"),
-    path("/suggestion/", CoverLetterSuggestionView.as_view(), name="cover_letter_suggestion"),
+    path("suggestion/", CoverLetterSuggestionView.as_view(), name="cover_letter_suggestion"),
     path("<int:pk>/delete/", CoverLetterDeleteView.as_view(), name="cover_letter_delete"),
 ]
