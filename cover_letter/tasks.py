@@ -3,12 +3,12 @@
 # Django
 from django.core.exceptions import ObjectDoesNotExist
 
-# models
+# Models
 from job.models import JobDetails
 from cv.models import CV
 from cover_letter.models import CoverLetterGPT3, CoverLetter
 
-# utils
+# Utils
 import logging
 from cover_letter.utils import request_suggestion_for_cover_letter
 
