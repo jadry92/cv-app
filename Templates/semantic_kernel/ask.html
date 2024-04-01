@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %} Ask {% endblock title %}
+
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <h2 class="text-center">
+      ask
+    </h2>
+  </div>
+  {% if text %}
+  <div class="row">
+    <p class="text-center">
+      {{ text }}
+    </p>
+  </div>
+  {% endif %}
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <form class="create" method="POST" action="{% url 'sk:ask' %}">
+        {% csrf_token %}
+        {{ form | crispy }}
+        <button class="primaryAction btn btn-primary" type="submit">Ask</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}

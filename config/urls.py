@@ -19,4 +19,5 @@ urlpatterns = [
     path("", include("cv.urls")),
     path("cover-letter/", include("cover_letter.urls")),
     path("job/", include("job.urls")),
+    path("sk/", include("ai.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
