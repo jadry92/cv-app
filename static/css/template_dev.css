@@ -1,0 +1,76 @@
+.main {
+  font-family: "Courier New";
+  font-size: 10px;
+  margin: 0;
+}
+
+.userdata h1 {
+  font-size: 2.5em;
+}
+
+.userdata {
+  margin-bottom: 10px;
+}
+
+.user-info {
+  margin: 0px;
+}
+
+.about h1 {
+  font-size: 2em;
+}
+
+.experience h1 {
+  font-size: 2em;
+}
+
+.experience h3 {
+  font-size: 1.7em;
+}
+
+.experience h3 {
+  margin-bottom: 0px;
+}
+
+.experience p {
+  margin-bottom: 0px;
+}
+
+.exp-li {
+  margin-bottom: 10px;
+}
+
+.education h1 {
+  font-size: 2em;
+}
+
+.education p {
+  margin: 0px;
+}
+
+.education h3 {
+  font-size: 1.7em;
+}
+
+.edu-li {
+  margin-bottom: 10px;
+}
+
+.projects h1 {
+  font-size: 2em;
+}
+
+.projects h3 {
+  font-size: 1.7em;
+}
+
+.projects p {
+  margin: 0px;
+}
+.projects small {
+  margin-bottom: 10px;
+}
+
+.skills h1 {
+  font-size: 2em;
+}

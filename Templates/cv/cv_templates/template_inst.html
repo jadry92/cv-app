@@ -1,0 +1,65 @@
+<main class="main">
+  <section id="user" class="userdata">
+    <h1 class="name"><strong>{{ cv.user.first_name|title }} {{ cv.user.last_name|title }}</strong></h1>
+    <p class="user-info"><small>Software Developer | {{ cv.user.address }} | {{ cv.user.phone }}
+        | {{ cv.user.email }}</small></p>
+    {% for social in cv.social_networks.all %}
+    <p class="user-info"><small>{{ social.url }}</small></p>
+    {% endfor %}
+  </section>
+  <section id="about" class="about">
+    <h1 class=""><strong>About</strong></h1>
+    <p class="">asdasdas{{ cv.about_me.about }}</p>
+  </section>
+  <section id="experience" class="experience">
+    <h1 class=""><strong>Experience</strong></h1>
+    <ul class="">
+      {% for experience in cv.experiences.all %}
+      <li class="exp-li">
+        <h3 class=""><strong>{{ experience.title }} at {{ experience.company }}</strong></h3>
+        {% if experience.current %}
+        <p class=""><small>{{ experience.start_date|date:"M/Y" }} - Current</small></p>
+        {% else %}
+        <p class=""><small>{{ experience.start_date|date:"M/Y" }} - {{ experience.end_date|date:"M/Y" }}</small></p>
+        {% endif %}
+        <p class="">
+          {{ experience.description }}
+        </p>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  <section id="education" class="education">
+    <h1 class=""><strong>Education</strong></h1>
+    <ul class="">
+      {% for education in cv.educations.all %}
+      <li class="edu-li">
+        <h3 class=""><strong>{{ education.degree }}</strong>
+        </h3>
+        <p class="">{{ education.school }}</p>
+        <p class=""><small>{{ education.start_date|date:"M/Y" }} - {{ education.end_date|date:"M/Y" }}</small></p>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  <section id="projects" class="projects">
+    <h1 class=""><strong>Projects</strong></h1>
+    <ul class="">
+      {% for project in cv.projects.all %}
+      <li class="">
+        <h3 class=""><strong>{{ project.title }}</strong></h3>
+        <p class="">{{ project.description }}</p>
+        <small class="">{{ project.url }}</small>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  <section id="skills" class="skills">
+    <h1 class=""><strong>Skills</strong></h1>
+    <ul class="">
+      {% for skill in cv.skills.all %}
+      <li class=""><small>{{ skill.name }}</small></li>
+      {% endfor %}
+    </ul>
+  </section>
+</main>

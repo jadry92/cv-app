@@ -2,7 +2,7 @@
 
 # Django
 from django.urls import reverse_lazy
-from django.views.generic import FormView, ListView, DeleteView, DetailView
+from django.views.generic import CreateView, FormView, ListView, DeleteView, DetailView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from django.http import Http404
@@ -60,7 +60,7 @@ class CVDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class CVCreateView(LoginRequiredMixin, FormView):
+class CVCreateView(LoginRequiredMixin, CreateView):
     """CV Create View"""
 
     template_name = "cv/create.html"
@@ -93,7 +93,7 @@ class CVCreateView(LoginRequiredMixin, FormView):
         return kwargs
 
 
-class CVUpdateView(LoginRequiredMixin, FormView):
+class CVUpdateView(LoginRequiredMixin, UpdateView):
     """CV Update View"""
 
     template_name = "cv/edit.html"
@@ -101,34 +101,43 @@ class CVUpdateView(LoginRequiredMixin, FormView):
     pk_url_kwarg = "pk"
     form_class = CVForm
 
-    def get_object(self):
+    def get_queryset(self):
         """Return the user's cv."""
-        return get_object_or_404(CV, pk=self.kwargs.get(self.pk_url_kwarg), user=self.request.user)
-
-    def get_context_data(self, **kwargs):
-        """Add the user to the context."""
-        context = super().get_context_data(**kwargs)
-        context["object"] = self.get_object()
-        return context
-
-    def form_valid(self, form):
-        """If the form is valid, save the associated model."""
-        form.instance.user = self.request.user
-        instance = form.save(commit=False)
-        instance.projects.set(form.cleaned_data["Projects"])
-        instance.skills.set(form.cleaned_data["Skills"])
-        instance.experiences.set(form.cleaned_data["Experiences"])
-        instance.educations.set(form.cleaned_data["Educations"])
-        instance.social_networks.set(form.cleaned_data["SocialNetworks"])
-        instance.save()
-        return super().form_valid(form)
+        return CV.objects.filter(user=self.request.user,id=self.kwargs.get(self.pk_url_kwarg))
 
     def get_form_kwargs(self):
         """Return the keyword arguments for instantiating the form."""
         kwargs = super().get_form_kwargs()
         kwargs.update({"user": self.request.user})
-        kwargs.update({"instance": self.get_object()})
         return kwargs
+
+    def get_initial(self):
+        """Return the initial data to use for forms on this view."""
+        initial = {}
+        cv = self.get_object()
+        initial["name"] = cv.name
+        initial["about_me"] = cv.about_me
+        initial["profile_picture"] = cv.profile_picture
+        initial["projects"] = cv.projects.all()
+        initial["skills"] = cv.skills.all()
+        initial["experiences"] = cv.experiences.all()
+        initial["educations"] = cv.educations.all()
+        initial["social_networks"] = cv.social_networks.all()
+        initial["template"] = [temp.id for temp in cv.template.all()]
+        return initial
+
+    def form_valid(self,form):
+        """ Save the update CV """
+        instance = form.save()
+        templates = form.cleaned_data["template"]
+        instance.template.clear()
+        for temp in templates:
+            temp.cv.add(instance)
+            temp.save()
+
+        return super().form_valid(form)
+
+
 
 
 class CVDeleteView(LoginRequiredMixin, DeleteView):
@@ -255,7 +264,16 @@ class CVPreviewView(LoginRequiredMixin, DetailView):
 class DownloadCVView(LoginRequiredMixin, WeasyTemplateView):
     """This view is to generate de cv in pdf and download"""
 
-    pdf_stylesheets = ["static/css/bootstrap.min.css", "static/css/cv_dev.css"]
+    pdf_stylesheets = ["static/css/bootstrap.min.css"]
+
+
+    def get_pdf_stylesheets(self):
+        pdf_stylesheets = super().get_pdf_stylesheets()
+        base_path = "static/css/"
+        base_name = self.template_name.split("/")[-1].split(".")[0]
+        pdf_stylesheets.append(base_path + base_name + ".css")
+        return pdf_stylesheets
+
 
     def get_object(self, queryset=None):
         """Return the user's cv."""
