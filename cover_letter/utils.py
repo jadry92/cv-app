@@ -23,5 +23,7 @@ def request_suggestion_for_cover_letter(job_summary, cv_infor):
         ],
     )
 
-    usage = f"Total tokens: {response.usage.total_tokens} \n Prompt: {response.usage.prompt_tokens} \n Completion: {response.usage.completion_tokens} \n"
+    usage = ""
+    if response.usage:
+        usage = f"Total tokens: {response.usage.total_tokens} \n Prompt: {response.usage.prompt_tokens} \n Completion: {response.usage.completion_tokens} \n"
     return (response.choices[0].message.content, usage)

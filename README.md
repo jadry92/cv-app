@@ -24,3 +24,6 @@ Celery configuration
 docker run -d -p 6379:6379 redis
 celery -A config worker -l INFO
 ```
+
+## Refences:
+- https://community.openai.com/t/different-output-when-using-n-for-linebreaks/271510/2
